@@ -1,0 +1,83 @@
+.player-round-performance-graph {
+	.round {
+		display grid
+		grid-template-columns 1.5fr 1fr 12fr
+		grid-template-areas 'otherTeam roundMeta ownTeam'
+	}
+
+	.round-meta {
+		grid-area roundMeta
+	}
+
+	.round-meta,
+	.survived-win,
+	.won-the-round,
+	.event {
+		display flex
+		flex-direction column
+		justify-content center
+		align-items center
+	}
+
+	.team {
+		&.--other {
+			grid-area otherTeam
+
+			display grid
+			grid-template-columns auto 4rem
+			grid-template-areas 'wonTheRound survivedWin'
+		}
+
+		&.--own {
+			grid-area ownTeam
+
+			display grid
+			grid-template-columns 4rem auto
+			grid-template-areas 'survivedWin events'
+		}
+	}
+
+	.won-the-round {
+		grid-area wonTheRound
+	}
+
+	.survived-win {
+		padding 1rem
+	}
+
+	.events {
+		grid-area events
+
+		$fraction = calc((100% - 6rem) / 12)
+
+		display grid
+		grid-template-columns 6rem $fraction $fraction $fraction $fraction $fraction $fraction $fraction $fraction $fraction $fraction $fraction $fraction
+
+		.event {
+			padding 1rem
+
+			&.--player-name {
+				grid-area 1/2/1/14
+				flsize(2.5rem, 1.25)
+				font-weight bold
+				text-align left
+				justify-content flex-start
+				flex-direction row
+				padding 1rem 2rem
+			}
+
+			&.--death {
+				background rgba($red, .35)
+				color #ea
+
+				img.weapon {
+					filter brightness(.9176)
+				}
+			}
+		}
+	}
+
+	img {
+		max-width 100%
+	}
+}

@@ -1,0 +1,31 @@
+@require '~normalize.css/normalize.css'
+@require 'vars'
+
+@require 'assets'
+@require 'base'
+@require 'big-scoreboard'
+@require 'cards'
+@require 'container'
+@require 'filter'
+@require 'header'
+@require 'input'
+@require 'map'
+@require 'matches-list'
+@require 'player-round-performance-graph'
+@require 'player-scores'
+@require 'round-graph'
+@require 'series'
+@require 'table'
+@require 'team-round-performance-graph'
+@require 'typography'
+@require 'vertical-performance-graph'
+
+body.route- {
+	&player {
+		@require 'pages/player'
+	}
+
+	&status {
+		@require 'pages/status'
+	}
+}

@@ -1,0 +1,145 @@
+.map {
+	display block
+
+	background #333 center no-repeat
+	background-size cover
+	text-align center
+
+	.inner {
+		display flex
+		flex-direction column
+		justify-content center
+		align-items center
+
+		height 100%
+		padding 1rem 2rem
+		background rgba(#000, .65)
+	}
+
+	&.--hero {
+		min-height 6.8rem
+		margin 2rem 0
+		box-shadow 0 0 .5rem rgba(#000, .25)
+	}
+
+	&.--de_abbey {
+		background-image url('../img/maps/screenshots/de_abbey.png')
+	}
+
+	&.--de_ali {
+		background-image url('../img/maps/screenshots/de_ali.jpg')
+	}
+
+	&.--de_anubis {
+		background-image url('../img/maps/screenshots/de_anubis.png')
+	}
+
+	&.--de_austria {
+		background-image url('../img/maps/screenshots/de_austria.png')
+	}
+
+	&.--de_aztec {
+		background-image url('../img/maps/screenshots/de_aztec.png')
+	}
+
+	&.--de_bank {
+		background-image url('../img/maps/screenshots/de_bank.png')
+	}
+
+	&.--de_cache {
+		background-image url('../img/maps/screenshots/de_cache.png')
+	}
+
+	&.--de_canals {
+		background-image url('../img/maps/screenshots/de_canals.png')
+	}
+
+	&.--de_castle {
+		background-image url('../img/maps/screenshots/de_castle.png')
+	}
+
+	&.--de_cbble {
+		background-image url('../img/maps/screenshots/de_cbble.png')
+	}
+
+	&.--de_chlorine {
+		background-image url('../img/maps/screenshots/de_chlorine.png')
+	}
+
+	&.--de_dust2 {
+		background-image url('../img/maps/screenshots/de_dust2.png')
+	}
+
+	&.--de_inferno {
+		background-image url('../img/maps/screenshots/de_inferno.png')
+	}
+
+	&.--de_lake {
+		background-image url('../img/maps/screenshots/de_lake.png')
+	}
+
+	&.--de_mirage {
+		background-image url('../img/maps/screenshots/de_mirage.png')
+	}
+
+	&.--de_nuke {
+		background-image url('../img/maps/screenshots/de_nuke.png')
+	}
+
+	&.--de_overpass {
+		background-image url('../img/maps/screenshots/de_overpass.png')
+	}
+
+	&.--de_safehouse {
+		background-image url('../img/maps/screenshots/de_safehouse.png')
+	}
+
+	&.--de_santorini {
+		background-image url('../img/maps/screenshots/de_santorini.png')
+	}
+
+	&.--de_season {
+		background-image url('../img/maps/screenshots/de_season.png')
+	}
+
+	&.--de_shortnuke {
+		background-image url('../img/maps/screenshots/de_shortnuke.png')
+	}
+
+	&.--de_stmarc {
+		background-image url('../img/maps/screenshots/de_stmarc.png')
+	}
+
+	&.--de_sugarcane {
+		background-image url('../img/maps/screenshots/de_sugarcane.png')
+	}
+
+	&.--de_train {
+		background-image url('../img/maps/screenshots/de_train.png')
+	}
+
+	&.--de_vertigo {
+		background-image url('../img/maps/screenshots/de_vertigo.png')
+	}
+
+	&.--de_zoo {
+		background-image url('../img/maps/screenshots/de_zoo.png')
+	}
+}
+
+a.map {
+	box-shadow 0 0 .5rem rgba(#000, .25)
+	text-decoration none
+
+	&:active,
+	&:hover {
+		.inner {
+			background rgba(#000, .55)
+			text-shadow 0 0 .2rem rgba(#000, .75)
+		}
+	}
+
+	.inner {
+		transition background-color .3s ease, text-shadow .3s ease
+	}
+}

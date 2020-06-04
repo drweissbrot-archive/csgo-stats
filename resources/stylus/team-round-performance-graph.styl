@@ -1,0 +1,211 @@
+.team-round-performance-graph {
+	.round {
+		grid-template-columns 1fr 10rem 1fr
+		grid-template-areas 'teamA roundMeta teamB'
+
+		&.--team-names {
+			.team {
+				grid-template-areas '0 0 0 name name name 1 score score'
+
+				&.--b {
+					grid-template-areas 'score score 0 name name name 1 1 1'
+				}
+
+				.name,
+				.score {
+					display flex
+					align-items center
+					justify-content center
+
+					padding 1rem 2rem
+				}
+
+				.name {
+					grid-area name
+
+					flsize(2.5rem, 1.25)
+					font-weight bold
+
+					img {
+						max-height 3rem
+						vertical-align -.25em
+					}
+				}
+
+				.score {
+					grid-area score
+
+					flsize(4rem, 1)
+					font-weight bold
+				}
+			}
+		}
+	}
+
+	.round-meta,
+	.kills,
+	.first-kill,
+	.first-death,
+	.damage,
+	.plant-defuse,
+	.nades-thrown,
+	.flashes,
+	.best-flash,
+	.survived-win,
+	.kill-order,
+	.money-eq {
+		display flex
+		flex-direction column
+		align-items center
+		justify-content center
+
+		padding 1rem
+	}
+
+	.team {
+		$fraction = calc((100% - 4rem) / 7)
+		$half = calc((100% - 4rem) / 14)
+		$third = calc((100% - 4rem) / (7 * 1.5))
+
+		grid-area teamA
+
+		display grid
+		grid-template-columns $fraction $half $third $half $fraction $fraction $fraction $third $third 4rem
+		grid-template-rows min-content auto
+		grid-template-areas 'bestFlash flashes nadesThrown damage firstDeath firstKill kills plantDefuse moneyEq survivedWin' 'bestFlash flashes nadesThrown damage killOrder killOrder kills plantDefuse moneyEq survivedWin'
+
+		&.--winner {
+			color #21
+
+			svg rect {
+				fill #000
+			}
+
+			.kill-order img {
+				filter brightness(.13)
+			}
+
+			&.--ct {
+				background linear-gradient(to left, rgba($cts, .85), rgba($cts, .5))
+			}
+
+			&.--t {
+				background linear-gradient(to left, rgba($terrorists, .8), rgba($terrorists, .45))
+			}
+		}
+
+		&.--b {
+			grid-area teamB
+
+			grid-template-columns 4rem $third $third $fraction $fraction $fraction $half $third $half $fraction
+			grid-template-rows min-content auto
+			grid-template-areas 'survivedWin moneyEq plantDefuse kills firstKill firstDeath damage nadesThrown flashes bestFlash' 'survivedWin moneyEq plantDefuse kills killOrder killOrder damage nadesThrown flashes bestFlash'
+
+			&.--winner {
+				color #21
+
+				&.--ct {
+					background linear-gradient(to right, rgba($cts, .85), rgba($cts, .5))
+				}
+
+				&.--t {
+					background linear-gradient(to right, rgba($terrorists, .8), rgba($terrorists, .45))
+				}
+			}
+
+			.table {
+				text-align left
+
+				.row {
+					grid-template-columns 2.5ch auto
+				}
+
+				.col {
+					&:first-child {
+						grid-area 1/2
+					}
+
+					&:last-child {
+						grid-area 1/1
+					}
+				}
+			}
+		}
+	}
+
+	.heading {
+		grid-row-end 2 !important
+	}
+
+	.table {
+		text-align right
+
+		.row {
+			display grid
+			grid-template-columns auto 2.5ch
+
+			.col {
+				&:first-child {
+					grid-area 1/1
+				}
+
+				&:last-child {
+					grid-area 1/2
+				}
+			}
+		}
+	}
+
+	.kills {
+		grid-area kills
+	}
+
+	.first-kill {
+		grid-area firstKill
+	}
+
+	.first-death {
+		grid-area firstDeath
+	}
+
+	.damage {
+		grid-area damage
+	}
+
+	.plant-defuse {
+		grid-area plantDefuse
+	}
+
+	.nades-thrown {
+		grid-area nadesThrown
+	}
+
+	.flashes {
+		grid-area flashes
+	}
+
+	.best-flash {
+		grid-area bestFlash
+	}
+
+	.kill-order {
+		grid-area killOrder
+
+		padding-top 0
+		flex-direction row
+		margin -.25rem
+
+		img {
+			height 1em
+			margin .25rem
+
+			&.death {
+				opacity .5
+			}
+		}
+	}
+
+	.money-eq {
+		grid-area moneyEq
+	}
+}

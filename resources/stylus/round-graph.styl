@@ -1,0 +1,95 @@
+.round-graph {
+	.team-a,
+	.team-b,
+	.round {
+		display flex
+		justify-content center
+	}
+
+	.team-a,
+	.team-b {
+		color #000
+	}
+
+	img {
+		display block
+		max-width 100%
+		margin .25rem 0 .5rem
+	}
+
+	.col {
+		padding 0 .5rem
+		width 2.5rem
+		text-align center
+
+		&:nth-child(15),
+		&:nth-child(30),
+		&:nth-child(36),
+		&:nth-child(42),
+		&:nth-child(48),
+		&:nth-child(54),
+		&:nth-child(60) {
+			&:not(:last-child) {
+				border-right .2rem solid #ea
+				width 2.7rem
+			}
+		}
+
+		&:nth-child(33),
+		&:nth-child(39),
+		&:nth-child(45),
+		&:nth-child(51),
+		&:nth-child(57) {
+			&:not(:last-child) {
+				border-right .1rem solid darken(#ea, 15%)
+				width 2.6rem
+			}
+		}
+
+		rect.dead {
+			opacity .25
+		}
+
+		&.--t,
+		&.--t-color {
+			rect {
+				fill $terrorists
+			}
+		}
+
+		&.--ct,
+		&.--ct-color {
+			rect {
+				fill $cts
+			}
+		}
+	}
+
+	.round {
+		flsize(1.2rem, 1)
+	}
+
+	.team-a {
+		.col {
+			&.--t {
+				background linear-gradient(to top, $terrorists, transparent)
+			}
+
+			&.--ct {
+				background linear-gradient(to top, $cts, transparent)
+			}
+		}
+	}
+
+	.team-b {
+		.col {
+			&.--t {
+				background linear-gradient(to bottom, $terrorists, transparent)
+			}
+
+			&.--ct {
+				background linear-gradient(to bottom, $cts, transparent)
+			}
+		}
+	}
+}

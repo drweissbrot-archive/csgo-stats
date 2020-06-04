@@ -1,0 +1,44 @@
+a {
+	color inherit
+
+	&:active,
+	&:hover {
+		text-decoration none
+	}
+}
+
+.text-ellipsis {
+	max-width 100%
+	overflow hidden
+	text-overflow ellipsis
+	white-space nowrap
+}
+
+img.inline-flag {
+	max-height 1em
+}
+
+.player-name {
+	display flex
+	align-items center
+
+	&.--left {
+		img.inline-flag {
+			margin-left 0
+		}
+	}
+
+	&:not(.--left) {
+		justify-content flex-end
+	}
+
+	img.inline-flag {
+		margin 0 .75ch
+	}
+}
+
+section {
+	&:not(:last-child) {
+		margin-bottom 2rem
+	}
+}

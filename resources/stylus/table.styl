@@ -1,0 +1,49 @@
+table {
+	border-collapse collapse
+
+	tr {
+		&:hover {
+			td:not(.team):not(.round-graph) {
+				background rgba(#fff, .05)
+			}
+		}
+	}
+
+	&:not(.small) {
+		width 100%
+
+		th {
+			padding 0 1rem
+			white-space nowrap
+			text-align right
+
+			a {
+				text-decoration none
+
+				&::before {
+					position absolute
+					transform translateX(calc(-100% - .5ch))
+				}
+
+				&.is-asc::before {
+					content '▴'
+				}
+
+				&.is-desc::before {
+					content '▾'
+				}
+			}
+		}
+
+		td {
+			padding .5rem 1rem
+			text-align right
+		}
+	}
+
+	&.small {
+		td {
+			padding .5rem 1rem
+		}
+	}
+}

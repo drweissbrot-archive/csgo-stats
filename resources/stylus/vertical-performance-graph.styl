@@ -1,0 +1,117 @@
+.vertical-performance-graph {
+	.round {
+		display grid
+		text-align center
+
+		&:nth-child(even) {
+			background #333
+		}
+
+		&:nth-child(17),
+		&:nth-child(32),
+		&:nth-child(38),
+		&:nth-child(44),
+		&:nth-child(50),
+		&:nth-child(56),
+		&:nth-child(62) {
+			&:not(:last-child) {
+				border-bottom .4rem solid #ea
+			}
+		}
+
+		&:nth-child(35),
+		&:nth-child(41),
+		&:nth-child(47),
+		&:nth-child(53),
+		&:nth-child(59) {
+			&:not(:last-child) {
+				border-bottom .1rem solid darken(#ea, 15%)
+			}
+		}
+	}
+
+	img.weapon,
+	img.win-reason,
+	img.bombsite {
+		filter brightness(.9176)
+	}
+
+	.team {
+		svg rect {
+			fill #fff
+
+			&.dead {
+				opacity .25
+			}
+		}
+
+		&.--winner {
+			color #21
+
+			svg rect {
+				fill #000
+			}
+
+			img.weapon,
+			img.win-reason,
+			img.bombsite {
+				filter brightness(.13)
+			}
+
+			&.--ct {
+				background linear-gradient(to left, rgba($cts, .85), rgba($cts, .5))
+			}
+
+			&.--t {
+				background linear-gradient(to left, rgba($terrorists, .8), rgba($terrorists, .45))
+			}
+		}
+	}
+
+	.sticky {
+		position sticky
+		top 0
+		background #21
+		z-index 1
+
+		border-bottom .2rem solid #000
+	}
+
+	.round-meta {
+		grid-area roundMeta
+
+		.number {
+			font-weight bold
+		}
+	}
+
+	.heading {
+		flsize(1.4rem, 1)
+		text-transform uppercase
+		font-weight 600
+	}
+
+	.survived-win {
+		grid-area survivedWin
+
+		img,
+		.img-spacer {
+			height 2rem
+			margin 1rem 0 0
+		}
+	}
+
+	.name-wrapper {
+		max-width 100%
+	}
+
+	img.weapon {
+		height 1em
+		vertical-align -.1em
+	}
+
+	img.bombsite {
+		max-height 1.5em
+		margin-top .2rem
+	}
+}

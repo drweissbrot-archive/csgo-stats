@@ -1,0 +1,114 @@
+.player-scores {	
+	.filter {
+		label {
+			padding 0 .5rem
+			cursor pointer
+
+			&:last-of-type {
+				padding-right 0
+			}
+
+			input {
+				margin-right .5ch
+				vertical-align -.1rem
+			}
+		}
+	}
+
+	.included-map-images {
+		display flex
+
+		.map {
+			flex-grow 1
+			transition filter .3s ease, opacity .3s ease
+
+			&:not(.--active) {
+				filter grayscale(1)
+				opacity .6
+			}
+		}
+	}
+
+	tbody {
+		td {
+			&:first-child {
+				max-width 16rem
+			}
+		}
+	}
+
+	.weapon-kills-chart {
+		display grid
+
+		.weapon-wrapper {
+			position relative
+
+			.weapon,
+			.tooltip,
+			.tooltip::before {
+				background #333
+			}
+
+			&:nth-child(even) {
+				.weapon,
+				.tooltip,
+				.tooltip::before {
+					background #444
+				}
+			}
+		}
+
+		.weapon {
+			height 100%
+
+			&:not(.--empty) {
+				padding 1rem
+			}
+
+			&:not(:hover) + .tooltip-wrapper {
+				display none
+			}
+		}
+
+		img {
+			display block
+			margin 0
+			height 1em
+		}
+
+		.tooltip-wrapper {
+			pointer-events none
+			position absolute
+			top calc(-100% - 4rem)
+			left 0
+			right 0
+
+			display flex
+			justify-content center
+		}
+
+		.tooltip {
+			width 10rem
+			padding 1rem 2rem
+			text-align center
+			box-shadow 0 0 .5rem rgba(#000, .25)
+
+			&::before {
+				content ''
+
+				height 1rem
+				width 1rem
+
+				display block
+				position absolute
+				bottom -.5rem
+				left calc(50% - .5rem)
+				transform rotate(45deg)
+			}
+
+			img {
+				margin 0 auto
+			}
+		}
+	}
+}

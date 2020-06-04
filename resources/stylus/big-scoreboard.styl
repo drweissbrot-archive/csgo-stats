@@ -1,0 +1,36 @@
+.big-scoreboard {
+	td {
+		&.team {
+			text-align center
+
+			.name,
+			.total-score {
+				flsize(2rem, 1.5)
+				font-weight bold
+			}
+
+			.total-score {
+				flsize(4rem, 1)
+			}
+
+			img {
+				height 1.5em
+				vertical-align -.4em
+			}
+
+			.additional-scores {
+				.score {
+					display inline-block
+					min-width 5ch
+
+					text-align center
+				}
+
+				img.side {
+					max-height 1em
+					vertical-align -0.25em
+				}
+			}
+		}
+	}
+}

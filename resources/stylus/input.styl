@@ -1,0 +1,19 @@
+.input-group {
+	&:not(:last-child) {
+		margin-bottom 2rem
+	}
+}
+
+input {
+	&[type='datetime-local'],
+	&[type='number'],
+	&[type='text'] {
+		padding .6rem 1.2rem
+		font inherit
+	}
+}
+
+select,
+button {
+	@extend input[type='text']
+}

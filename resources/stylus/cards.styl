@@ -1,0 +1,34 @@
+.cards {
+	display flex
+	flex-wrap wrap
+
+	margin 0 -.75rem
+
+	.card {
+		&:not(:last-child) {
+			border-right 2px solid $turquoise
+		}
+
+		border-radius .3rem
+		margin .75rem
+		padding-right 1.5rem
+
+		.title {
+			flsize(1.4rem, 1)
+			text-transform uppercase
+			font-weight 600
+		}
+
+		&.--highlighted {
+			.title {
+				color $turquoise
+			}
+		}
+
+		&.--alert {
+			.title {
+				color $red
+			}
+		}
+	}
+}
