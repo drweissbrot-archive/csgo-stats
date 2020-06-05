@@ -39,7 +39,7 @@ class DemoIntakeCommand extends Command
 			foreach ($files as $key => $file) {
 				$seriesName = preg_replace('/\/.+$/u', '', $file) ?? '_series_name_';
 
-				if (! Str::contains($file, '/') || ! preg_match('/^BO\d+ (_\d+|[^_].+)\/(' . preg_quote($seriesName, '/') . '\.txt|\d{4}-\d{2}-\d{2} \d{2}:\d{2}(:\d{2})?( knife)?+\.dem(\.txt)?)$/u', $file)) {
+				if (! Str::contains($file, '/') || ! preg_match('/^BO\d+ (_\d+|[^_].+)\/(' . preg_quote($seriesName, '/') . '\.txt|\d{4}-\d{2}-\d{2} \d{2}[:\.]\d{2}([:\.]\d{2})?( knife)?+\.dem(\.txt)?)$/u', $file)) {
 					$this->info("cannot import {$file}, will ignore series {$seriesName}");
 					$files->forget($key);
 					$ignoreSeries[] = $seriesName;
