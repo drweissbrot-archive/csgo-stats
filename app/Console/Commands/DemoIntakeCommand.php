@@ -113,7 +113,7 @@ class DemoIntakeCommand extends Command
 
 				$isKnife = Str::endsWith($file, ' knife.dem');
 				$startedAt = new Carbon(
-					collect(preg_split('/[ _\.]/u', $file, 3))->forget(2)->join(' ')
+					collect(preg_split('/[ _:]|\.dem/u', $file, 3))->forget(2)->join(' ')
 				);
 
 				$matchNotes = ($files->contains("{$file}.txt"))
