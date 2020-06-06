@@ -205,7 +205,7 @@
 									</div>
 
 									<div>
-										{{ $event->get('bot')->display_name }}
+										{{ optional($event->get('bot'))->display_name ?? 'BOT' }}
 									</div>
 								</div>
 							@elseif ($event->get('type') === 'item_pickup')

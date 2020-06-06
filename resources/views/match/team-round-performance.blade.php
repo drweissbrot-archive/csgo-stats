@@ -292,7 +292,7 @@
 									<img
 										src="{{ mix('images/switch-teams-dead.svg') }}"
 										alt="Bot Takeover"
-										title="Bot Takeover: {{ $kill->get('human')->display_name }} → {{ $kill->get('bot')->display_name }} @ {{ floor($kill->get('time') * 10) / 10 }}s"
+										title="Bot Takeover: {{ $kill->get('human')->display_name }} → {{ optional($kill->get('bot'))->display_name ?? 'BOT' }} @ {{ floor($kill->get('time') * 10) / 10 }}s"
 										@if ($kill->get('team') !== $letter) class="death" @endif
 									>
 								@else
