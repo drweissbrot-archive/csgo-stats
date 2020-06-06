@@ -100,9 +100,34 @@ class ScoreBuilder
 						$event->duration
 					);
 				} elseif ($event instanceof KillEvent) {
+					// Attacker
 					$attacker = $players->get($event->attacker_id);
+
+					$this->playerPhase($attacker, $phase)->each->addNum(
+						($event->teamkill) ? 'team_kills' : 'enemy_kills', 1
+					);
+
+					// note who they killed and when (so that we can determine if the killed player was traded)
+					$this->playerPhase($attacker, $phase)->first()->get('rounds')->last()->get('kills')->put($event->victim_id, $event->tick);
+
+					if (! $event->teamkill) {
+						$this->playerPhase($attacker, $phase)->each->addNum("enemy_kills_{$event->weapon}", 1);
+
+						if ($event->headshot) {
+							$this->playerPhase($attacker, $phase)->each->addNum('enemy_headshot_kills', 1);
+						}
+					}
+
+					// Victim
 					$victim = $players->get($event->victim_id);
-					$assister = $event->assister_id ? $players->get($event->assister_id) : null;
+
+					$this->playerPhase($victim, $phase)->each->addNum('deaths', 1);
+					$this->playerPhase($victim, $phase)->first()->get('rounds')->last()->put('survived', false);
+
+					$this->playerPhase($victim, $phase)->each->addNum(
+						'time_alive_ms',
+						($event->tick - $firstTick) / $match->tickrate,
+					);
 
 					$round->{"team_{$victim->get('team')}_survived"}--;
 
@@ -110,6 +135,21 @@ class ScoreBuilder
 						$clutches[$victim->get('team')]->put('died', true);
 					}
 
+					// Trades (Victim and Attacker)
+					foreach ($this->playerPhase($victim, $phase)->first()->get('rounds')->last()->get('kills') as $killed => $tick) {
+						// consider people traded if their killer is killed within 10 seconds
+						if ($tick >= ($event->tick - 10 * $match->tickrate)) {
+							$this->playerPhase($players->get($killed), $phase)->each->addNum('deaths_traded', 1);
+
+							$this->playerPhase($players->get($killed), $phase)->first()->get('rounds')->last()->put('traded', true);
+
+							if (! $event->teamkill) {
+								$this->playerPhase($attacker, $phase)->each->addNum('enemy_trade_kills', 1);
+							}
+						}
+					}
+
+					// Clutches
 					foreach (['a', 'b'] as $letter) {
 						if ($round->{"team_{$letter}_survived"} !== 1) {
 							continue;
@@ -131,47 +171,8 @@ class ScoreBuilder
 						}
 					}
 
-					if ($event->weapon === 'planted_c4') {
-						continue;
-					}
-
-					$this->playerPhase($attacker, $phase)->each->addNum(
-						($event->teamkill) ? 'team_kills' : 'enemy_kills', 1
-					);
-
-					$this->playerPhase($victim, $phase)->each->addNum(
-						'time_alive_ms',
-						($event->tick - $firstTick) / $match->tickrate,
-					);
-
-					if (! $event->teamkill) {
-						$this->playerPhase($attacker, $phase)->each->addNum("enemy_kills_{$event->weapon}", 1);
-					}
-
-					// note who they killed and when (so that we can determine if the killed player was traded)
-					$this->playerPhase($attacker, $phase)->first()->get('rounds')->last()->get('kills')->put($event->victim_id, $event->tick);
-
-					$this->playerPhase($victim, $phase)->each->addNum('deaths', 1);
-					$this->playerPhase($victim, $phase)->first()->get('rounds')->last()->put('survived', false);
-
-					foreach ($this->playerPhase($victim, $phase)->first()->get('rounds')->last()->get('kills') as $killed => $tick) {
-						// consider people traded if their killer is killed within 10 seconds
-						if ($tick >= ($event->tick - 10 * $match->tickrate)) {
-							$this->playerPhase($players->get($killed), $phase)->each->addNum('deaths_traded', 1);
-
-							$this->playerPhase($players->get($killed), $phase)->first()->get('rounds')->last()->put('traded', true);
-
-							if (! $event->teamkill) {
-								$this->playerPhase($attacker, $phase)->each->addNum('enemy_trade_kills', 1);
-							}
-						}
-					}
-
-					if ($event->headshot && ! $event->teamkill) {
-						$this->playerPhase($attacker, $phase)->each->addNum('enemy_headshot_kills', 1);
-					}
-
-					if ($assister) {
+					// Assister
+					if ($assister = ($event->assister_id) ? $players->get($event->assister_id) : null) {
 						$this->playerPhase($assister, $phase)->each->addNum(
 							($event->team_assist)
 								? (($event->flash_assist) ? 'team_flash_assists' : 'team_assists')
