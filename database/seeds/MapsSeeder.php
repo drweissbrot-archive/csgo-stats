@@ -71,6 +71,13 @@ class MapsSeeder extends Seeder
 		]);
 
 		Map::create([
+			'display_name' => 'de_train',
+			'filename' => 'de_train',
+			'name' => 'de_train',
+			'map_group' => 'active_duty',
+		]);
+
+		Map::create([
 			'display_name' => 'de_vertigo',
 			'filename' => 'de_vertigo',
 			'name' => 'de_vertigo',
