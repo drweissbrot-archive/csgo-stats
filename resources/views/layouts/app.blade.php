@@ -16,6 +16,7 @@
 	</title>
 
 	<link rel="stylesheet" href="{{ mix('css/app.css') }}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap">
 </head>
 <body class="route-{{ Str::slug(str_replace('.', '-', optional(Route::current())->getName())) }}">
 	<header>
