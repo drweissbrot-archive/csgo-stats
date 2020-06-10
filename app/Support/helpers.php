@@ -83,16 +83,6 @@ function teamAbbrToNumber(string $team) : int
 	}
 }
 
-/**
- * @param int $roundNo round number, zero-indexed
- *
- * @return bool if the sides were swapped at the beginning of the given round
- */
-function isSwapSideRound(int $roundNo) : bool
-{
-	return $roundNo === 15 || ($roundNo > 30 && ($roundNo - 3) % 6 === 0);
-}
-
 function divide($dividend, $divisor)
 {
 	if ($dividend === 0) {

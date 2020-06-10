@@ -85,7 +85,7 @@ class MatchCreator
 			foreach ($demo->get('rounds') as $events) {
 				$roundNo = $events->first(fn ($e) => in_array($e->get('type'), ['round_start', 'freeze_time_ended']))->get('number');
 
-				if (isSwapSideRound($roundNo)) {
+				if ($match->isSwapSideRound($roundNo)) {
 					$swap = $sideB;
 					$sideB = $sideA;
 					$sideA = $swap;
@@ -174,20 +174,17 @@ class MatchCreator
 
 	protected function findTeamAStartingSide(Match $match, string $sideA) : string
 	{
-		$rounds = $match->team_a_score + $match->team_b_score;
-
-		if ($rounds <= 15) {
+		if (! $match->has_halftime) {
 			return $sideA;
 		}
 
-		if ($rounds <= 33) {
-			return otherTeam($sideA);
-		}
+		$rounds = $match->team_a_score + $match->team_b_score;
+		$swap = false;
 
-		$swap = true;
-
-		for ($i = 34; $i <= $rounds; $i += 6) {
-			$swap = ! $swap;
+		for ($i = 0; $i < $rounds; $i++) {
+			if ($match->isSwapSideRound($i)) {
+				$swap = ! $swap;
+			}
 		}
 
 		return ($swap)

@@ -79,7 +79,7 @@ class SeriesCreator
 
 	protected function findExistingTeam(Collection $teamData, Collection $players) : ?Team
 	{
-		$team = Team::with('players');
+		$team = Team::with('players')->withCount('players')->having('players_count', $teamData->get('players')->count());
 
 		foreach ($teamData->get('players') as $steamId) {
 			if (! $players->get($steamId)) {

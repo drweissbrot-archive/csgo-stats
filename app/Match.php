@@ -55,4 +55,18 @@ class Match extends Model
 			}
 		}
 	}
+
+	/**
+	 * @param int $roundNo round number, zero-indexed
+	 *
+	 * @return bool if the sides were swapped at the beginning of the given round
+	 */
+	public function isSwapSideRound(int $roundNo) : bool
+	{
+		if (! $this->has_halftime) {
+			return false;
+		}
+
+		return $roundNo === ($this->max_rounds / 2) || ($roundNo > $this->max_rounds && ($roundNo - 3) % 6 === 0);
+	}
 }

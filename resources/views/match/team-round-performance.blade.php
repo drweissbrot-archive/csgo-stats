@@ -316,7 +316,8 @@
 							<div>
 								@if ($round->get('round_no') === 0 || $round->get('round_no') === 15)
 									PISTOL
-								@elseif ($round->get($letter)->get('equipment_value') >= 12500)
+								@elseif ($round->get($letter)->get('equipment_value') / $match->playersPerTeam() >= 2500)
+									{{-- 2500 USD per Person = 12500 USD in a 5 person team --}}
 									BUY
 								@elseif ($round->get($letter)->get('equipment_value') >= $round->get($letter)->get('money'))
 									FORCE
