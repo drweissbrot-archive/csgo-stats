@@ -17,7 +17,7 @@ class HomeController extends Controller
 			'matches' => function ($matches) {
 				$matches->with('map')->withoutKnifeRounds();
 			},
-		])->latest()->take(10)->get();
+		])->latest()->take(10)->get()->sortByDesc('matches.0.started_at');
 
 		$this->calculateSeriesScores($latestSeries);
 
