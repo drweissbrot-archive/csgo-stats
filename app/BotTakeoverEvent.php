@@ -17,8 +17,8 @@ class BotTakeoverEvent extends Model
 			'index_within_round' => $i,
 			'tick' => $data->get('tick'),
 
-			'human_id' => $players->get($data->get('human')),
-			'bot_id' => $players->get($data->get('bot')),
+			'human_id' => $players->get($data->get('human')) ?? unknownUser()->id,
+			'bot_id' => $players->get($data->get('bot')) ?? unknownUser()->id,
 		]);
 	}
 

@@ -17,7 +17,7 @@ class ExplodedEvent extends Model
 			'index_within_round' => $i,
 			'tick' => $data->get('tick'),
 
-			'planter_id' => $players->get($data->get('planter')),
+			'planter_id' => $players->get($data->get('planter')) ?? unknownUser()->id,
 			'site' => $data->get('site'),
 		]);
 	}

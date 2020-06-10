@@ -15,7 +15,7 @@ class FlashbangThrownEvent extends Model
 			'index_within_round' => $i,
 			'tick' => $data->get('tick'),
 
-			'thrower_id' => $players->get($data->get('thrower')),
+			'thrower_id' => $players->get($data->get('thrower')) ?? unknownUser()->id,
 		]);
 	}
 

@@ -17,7 +17,7 @@ class DefuseEvent extends Model
 			'index_within_round' => $i,
 			'tick' => $data->get('tick'),
 
-			'defuser_id' => $players->get($data->get('defuser')),
+			'defuser_id' => $players->get($data->get('defuser')) ?? unknownUser()->id,
 			'site' => $data->get('site'),
 		]);
 	}

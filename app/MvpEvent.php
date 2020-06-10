@@ -17,7 +17,7 @@ class MvpEvent extends Model
 			'index_within_round' => $i,
 			'tick' => $data->get('tick'),
 
-			'mvp_id' => $players->get($data->get('mvp')),
+			'mvp_id' => $players->get($data->get('mvp')) ?? unknownUser()->id,
 		]);
 	}
 

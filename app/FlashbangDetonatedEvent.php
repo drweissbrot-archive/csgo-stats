@@ -17,7 +17,7 @@ class FlashbangDetonatedEvent extends Model
 
 			'flashbang_entity_id' => $data->get('entity_id'),
 
-			'thrower_id' => $players->get($data->get('thrower')),
+			'thrower_id' => $players->get($data->get('thrower')) ?? unknownUser()->id,
 		]);
 	}
 
