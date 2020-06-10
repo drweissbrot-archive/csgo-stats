@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import BigScoreboard from './BigScoreboard/BigScoreboard'
-import PlayerScores from './PlayerScores/PlayerScores'
+import CareerScores from './CareerScores/CareerScores'
 import RoundWinReason from './RoundWinReason'
 import SurvivedSvg from './SurvivedSvg'
 
@@ -13,6 +13,6 @@ new Vue({
 
 	components: {
 		BigScoreboard,
-		PlayerScores,
+		CareerScores,
 	},
 })

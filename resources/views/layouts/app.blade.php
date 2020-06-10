@@ -26,7 +26,7 @@
 
 		<nav>
 			<ul>
-				@foreach (\App\Ladder::orderBy('name')->get() as $ladder)
+				@foreach (app('all_ladders') as $ladder)
 					<li>
 						<a href="{{ route('ladder', $ladder->id) }}">
 							{{ $ladder->name }}

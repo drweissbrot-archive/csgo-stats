@@ -18,7 +18,7 @@
 
 		<div class="card">
 			<div class="title">
-				Maps Played
+				Matches Played
 			</div>
 
 			<div class="value">

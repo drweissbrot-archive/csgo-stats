@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('document-title')
-	{{ $player->display_name }}
+	{{ $team->name }}
 @endsection
 
 @section('page-title')
-	@if ($player->flag)
-		<img src="https://countryflags.io/{{ $player->flag }}/flat/64.png" alt="{{ $player->flag }}" title="{{ $player->flag }}" class="inline-flag">
+	@if ($team->flag)
+		<img src="https://countryflags.io/{{ $team->flag }}/flat/64.png" alt="{{ $team->flag }}" title="{{ $team->flag }}" class="inline-flag">
 	@endif
 
-	{{ $player->display_name }}
+	{{ $team->name }}
 @endsection
 
 @section('page-title-classes')
@@ -18,28 +18,31 @@
 
 @section('content')
 	<career-scores
-		rows-are="maps"
-		series-played="{{ $series->count() }}"
-		:steam-data="{{ json_encode([
-			'url' => 'https://steamcommunity.com/profiles/' . $steamId->ConvertToUInt64(),
-			'name' => $player->steam_name,
-		]) }}"
+		rows-are="players"
+		series-played="{{ $team->series->count() }}"
 		:all-ladders="{{ app('all_ladders')->map->only('id', 'name') }}"
 		:all-maps="{{ $maps->mapWithKeys(function ($map) {
 			return [$map->id => $map->only('filename', 'display_name')];
+		}) }}"
+		:all-players="{{ $team->players->mapWithKeys(function ($player) {
+			return [$player->id => [
+				'display_name' => $player->display_name,
+				'flag' => $player->flag,
+				'url' => route('player', $player->id),
+			]];
 		}) }}"
 		:all-stats="{{ $stats }}"
 	></career-scores>
 
 	<p class="stat-date-note">
 		@if (Request::input('alltime') === '1')
-			These statistics include data for all matches this player has played.
-			<a href="{{ route('player', $player->id) }}">
+			These statistics include data for all matches this team has played.
+			<a href="{{ route('team', $team->id) }}">
 				only show data for recent matches
 			</a>
 		@else
 			These statistics only include data from series within the last 90 days.
-			<a href="{{ route('player', $player->id) }}?alltime=1">
+			<a href="{{ route('team', $team->id) }}?alltime=1">
 				show data for all matches
 			</a>
 		@endif

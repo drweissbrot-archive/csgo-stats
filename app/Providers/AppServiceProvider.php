@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Ladder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,5 +38,9 @@ class AppServiceProvider extends ServiceProvider
 				$class::macro($name, $handler);
 			}
 		}
+
+		$this->app->singleton('all_ladders', function () {
+			return Ladder::orderBy('name')->get();
+		});
 	}
 }

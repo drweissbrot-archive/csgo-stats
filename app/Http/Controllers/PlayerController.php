@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Ladder;
 use App\Map;
 use App\Player;
 use App\Support\Concerns\FindsTeamOfPlayer;
@@ -14,12 +13,14 @@ class PlayerController extends Controller
 {
 	use FindsTeamOfPlayer;
 
-	public function read(Request $request, Player $player)
+	public function __invoke(Request $request, Player $player)
 	{
 		$player->load([
 			'teams.series' => function ($series) use ($player, $request) {
 				$series->with([
-					'teams.players', 'ladder',
+					'teams.players' => function ($players) use ($player) {
+						$players->where('players.id', $player->id);
+					},
 
 					'matches' => function ($matches) use ($player) {
 						$matches->with([
@@ -49,7 +50,6 @@ class PlayerController extends Controller
 			'stats' => $this->buildStats($series, $player),
 			'matches' => $series->pluck('matches')->flatten(1),
 
-			'ladders' => Ladder::all(),
 			'maps' => Map::orderBy('map_group')->orderBy('display_name')->get(),
 		]);
 	}
@@ -62,13 +62,13 @@ class PlayerController extends Controller
 			$letter = $this->teamOf($player, $series->teamA, $series->teamB);
 			$team = $series->teams->firstWhere('pivot.letter', $letter);
 
-			if (! $stats->has($series->ladder->name)) {
-				$stats->put($series->ladder->name, collect());
+			if (! $stats->has($series->ladder_id)) {
+				$stats->put($series->ladder_id, collect());
 			}
 
 			foreach ($series->matches as $match) {
-				if (! $stats->get($series->ladder->name)->has($match->map_id)) {
-					$stats->get($series->ladder->name)->put($match->map_id, collect([
+				if (! $stats->get($series->ladder_id)->has($match->map_id)) {
+					$stats->get($series->ladder_id)->put($match->map_id, collect([
 						'ct_regulation' => collect(), 't_regulation' => collect(),
 						'ct_pistol' => collect(), 't_pistol' => collect(),
 						'ct_overtime' => collect(), 't_overtime' => collect(),
@@ -78,7 +78,7 @@ class PlayerController extends Controller
 				$ownScore = $match->{"team_{$letter}_score"};
 				$otherScore = $match->{'team_' . otherTeam($letter) . '_score'};
 
-				$stats->get($series->ladder->name)->get($match->map_id)->each(function ($phase) use ($ownScore, $otherScore) {
+				$stats->get($series->ladder_id)->get($match->map_id)->each(function ($phase) use ($ownScore, $otherScore) {
 					$phase->addNum('matches_played', 1)
 						->addNum('matches_won', ($ownScore > $otherScore) ? 1 : 0)
 						->addNum('matches_tied', ($ownScore === $otherScore) ? 1 : 0)
@@ -89,17 +89,18 @@ class PlayerController extends Controller
 				foreach ($match->rounds as $round) {
 					$side = teamNumberToAbbr($round->{"team_{$letter}_side"});
 					$phase = ($round->round_no > 29) ? 'overtime' : 'regulation';
-					$stats->get($series->ladder->name)->get($match->map_id)->get("{$side}_{$phase}")->addNum('rounds_played', 1);
+
+					$stats->get($series->ladder_id)->get($match->map_id)->get("{$side}_{$phase}")->addNum('rounds_played', 1);
 
 					if ($round->winner_team_id === $team->id) {
-						$stats->get($series->ladder->name)->get($match->map_id)->get("{$side}_{$phase}")->addNum('rounds_won', 1);
+						$stats->get($series->ladder_id)->get($match->map_id)->get("{$side}_{$phase}")->addNum('rounds_won', 1);
 					}
 
 					if ($round->round_no === 0 || $round->round_no === 15) {
-						$stats->get($series->ladder->name)->get($match->map_id)->get("{$side}_pistol")->addNum('rounds_played', 1);
+						$stats->get($series->ladder_id)->get($match->map_id)->get("{$side}_pistol")->addNum('rounds_played', 1);
 
 						if ($round->winner_team_id === $team->id) {
-							$stats->get($series->ladder->name)->get($match->map_id)->get("{$side}_pistol")->addNum('rounds_won', 1);
+							$stats->get($series->ladder_id)->get($match->map_id)->get("{$side}_pistol")->addNum('rounds_won', 1);
 						}
 					}
 				}
@@ -107,7 +108,7 @@ class PlayerController extends Controller
 				foreach ($match->playerMatchStats as $stat) {
 					foreach ($stat->getAttributes() as $key => $value) {
 						if (is_numeric($value)) {
-							$stats->get($series->ladder->name)->get($match->map_id)->get("{$stat->side}_{$stat->phase}")->addNum($key, $value);
+							$stats->get($series->ladder_id)->get($match->map_id)->get("{$stat->side}_{$stat->phase}")->addNum($key, $value);
 						}
 					}
 				}

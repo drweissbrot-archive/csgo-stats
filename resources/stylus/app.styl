@@ -12,7 +12,7 @@
 @require 'map'
 @require 'matches-list'
 @require 'player-round-performance-graph'
-@require 'player-scores'
+@require 'career-scores'
 @require 'round-graph'
 @require 'series'
 @require 'table'
@@ -21,7 +21,8 @@
 @require 'vertical-performance-graph'
 
 body.route- {
-	&player {
+	&player,
+	&team {
 		@require 'pages/player'
 	}
 

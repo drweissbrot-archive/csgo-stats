@@ -24,5 +24,8 @@ Route::get('/demo/{match}', 'MatchController@downloadDemo')
 Route::get('/status', StatusController::class)
 	->name('status');
 
-Route::get('/player/{player}', 'PlayerController@read')
+Route::get('/player/{player}', PlayerController::class)
 	->name('player');
+
+Route::get('/team/{team}', TeamController::class)
+	->name('team');

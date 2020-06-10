@@ -1,5 +1,101 @@
 <template>
-	<div v-if="loaded" class="player-scores">
+	<div v-if="loaded" class="career-scores">
+		<div class="cards">
+			<div class="card" v-if="steamData">
+				<div class="title">
+					Steam
+				</div>
+
+				<a :href="steamData.url" class="value">
+					{{ steamData.name }}
+				</a>
+			</div>
+
+			<div class="card" title="Total Number of Series Played – NB! this number ignores filters for maps or ladders">
+				<div class="title">
+					Series Played
+				</div>
+
+				<div class="value">
+					{{ seriesPlayed }}
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="title">
+					Matches Played
+				</div>
+
+				<div class="value">
+					{{ n(firstRow.matches_played) / this.includedPhases.length }}
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="title">
+					Matches Won
+				</div>
+
+				<div class="value">
+					{{ n(firstRow.matches_won) / this.includedPhases.length }}
+					({{ nf(divide(n(firstRow.matches_won), n(firstRow.matches_played)) * 100, 0, 2) }}&nbsp;%)
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="title">
+					Matches Tied
+				</div>
+
+				<div class="value">
+					{{ n(firstRow.matches_tied) / this.includedPhases.length }}
+					({{ nf(divide(n(firstRow.matches_tied), n(firstRow.matches_played)) * 100, 0, 2) }}&nbsp;%)
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="title">
+					Matches Lost
+				</div>
+
+				<div class="value">
+					{{ n(firstRow.matches_lost) / this.includedPhases.length }}
+					({{ nf(divide(n(firstRow.matches_lost), n(firstRow.matches_played)) * 100, 0, 2) }}&nbsp;%)
+				</div>
+			</div>
+
+			<div class="card" title="Average Round Difference">
+				<div class="title">
+					ARD
+				</div>
+
+				<div class="value">
+					{{ nf(divide(n(firstRow.round_difference), n(firstRow.matches_played)), 2) }}
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="title">
+					Rounds Played
+				</div>
+
+				<div class="value">
+					{{ n(firstRow.rounds_played) }}
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="title">
+					Rounds Won
+				</div>
+
+				<div class="value">
+					{{ n(firstRow.rounds_won) }}
+					({{ nf(divide(n(firstRow.rounds_won), n(firstRow.rounds_played)) * 100, 0, 2) }}&nbsp;%)
+				</div>
+			</div>
+		</div>
+
 		<div class="included-map-images" title="Maps included in stats – Ctrl+Click to invert selection">
 			<a href="#"
 				v-for="({ filename, display_name }, id) in allMaps"
@@ -20,10 +116,10 @@
 			<template v-for="ladder in allLadders">
 				<label>
 					<input type="checkbox"
-						:checked="includedLadders.includes(ladder)"
-						@change.prevent="toggleIncludedLadder(ladder)"
+						:checked="includedLadders.includes(ladder.id)"
+						@change.prevent="toggleIncludedLadder(ladder.id)"
 					>
-					{{ ladder }}
+					{{ ladder.name }}
 				</label>
 			</template>
 
@@ -51,15 +147,18 @@
 
 			<table>
 				<thead>
-					<headings v-model="order" />
+					<headings v-model="order" :rowsAre="rowsAre" />
 				</thead>
 
 				<tbody>
-					<scores-row v-if="map === 'total' || allMaps.hasOwnProperty(map)"
-						:map="(map === 'total') ? 'All Maps' : allMaps[map].display_name"
+					<scores-row v-if="rowsAre === 'players' || (map === 'total' || allMaps.hasOwnProperty(map))"
 						v-for="map in includedMapsSorted" :key="map"
+						:map="(rowsAre === 'players')
+							? allPlayers[map]
+							: ((map === 'total') ? 'All Maps' : allMaps[map].display_name)"
 						:stats="stats[map]"
 						:includedPhases="includedPhases.length"
+						:rowsAre="rowsAre"
 					/>
 				</tbody>
 			</table>
@@ -68,7 +167,14 @@
 		<section>
 			<h2>Weapons</h2>
 
-			<weapon-kills-chart :totalKills="stats.total.enemy_kills" :weaponKills="weaponKills" />
+			<weapon-kills-chart
+				:weaponKills="weaponKills"
+				:totalKills="
+					(stats.hasOwnProperty('total'))
+						? stats.total.enemy_kills
+						: weaponKills.reduce((sum, [ _, k ]) => sum += k, 0)
+				"
+			/>
 		</section>
 	</div>
 </template>
@@ -85,7 +191,7 @@ let initialIncludedLadders, initialIncludedMaps
 export default {
 	mixins: [ MathHelpers ],
 
-	props: [ 'allLadders', 'allMaps', 'allStats' ],
+	props: [ 'allLadders', 'allMaps', 'allPlayers', 'allStats', 'rowsAre', 'seriesPlayed', 'steamData' ],
 
 	components: {
 		Headings,
@@ -94,7 +200,7 @@ export default {
 	},
 
 	async mounted() {
-		this.includedLadders = await get('included_ladders') || this.allLadders.slice()
+		this.includedLadders = await get('included_ladders') || this.allLadders.map(({ id }) => id)
 		this.includedMaps = await get('included_maps') || Object.keys(this.allMaps)
 		this.loaded = true
 	},
@@ -106,7 +212,9 @@ export default {
 			includedMaps: [],
 			includedPhases: [ 't_regulation', 'ct_regulation', 't_overtime', 'ct_overtime' ],
 
-			order: [ 'match_win_pctg', false ],
+			order: (this.rowsAre === 'players')
+				? [ 'kast_pctg', false ]
+				: [ 'match_win_pctg', false ],
 		}
 	},
 
@@ -222,6 +330,14 @@ export default {
 				return this.divide(this.n(this.stats[map].enemy_headshot_kills), this.n(this.stats[map].enemy_kills))
 			}
 
+			if (criterion === 'trade_kills_pctg') {
+				return this.divide(this.n(this.stats[map].enemy_trade_kills), this.n(this.stats[map].enemy_kills))
+			}
+
+			if (criterion === 'deaths_traded_pctg') {
+				return this.divide(this.n(this.stats[map].deaths_traded), this.n(this.stats[map].deaths))
+			}
+
 			if (criterion === 'kast_pctg') {
 				return this.divide(this.n(this.stats[map].kast_rounds), this.n(this.stats[map].rounds_played))
 			}
@@ -275,66 +391,113 @@ export default {
 				return this.n(this.stats[map].one_vs_1_kills) + this.n(this.stats[map].one_vs_2_kills) + this.n(this.stats[map].one_vs_3_kills) + this.n(this.stats[map].one_vs_4_kills) + this.n(this.stats[map].one_vs_5_kills)
 			}
 
+			if (criterion === 'enemies_flashed_per_round') {
+				return this.n(this.stats[map].enemies_flashed) / this.n(this.stats[map].rounds_played)
+			}
+
+			if (criterion === 'avg_enemy_flashed_duration') {
+				return this.n(this.stats[map].enemies_flashed_duration) / this.n(this.stats[map].enemies_flashed)
+			}
+
+			if (criterion === 'enemy_flashed_duration_per_round') {
+				return this.n(this.stats[map].enemies_flashed_duration) / this.n(this.stats[map].rounds_played)
+			}
+
 			return this.n(this.stats[map][criterion])
+		},
+
+		calculateStatsForPlayer(allStats) {
+			const perMap = {}
+			const total = {}
+
+			for (const ladder of this.includedLadders) {
+				for (const map of this.includedMaps) {
+					if (! perMap.hasOwnProperty(map)) perMap[map] = {}
+
+					for (const phase of this.includedPhases) {
+						if (! allStats.hasOwnProperty(ladder)
+							|| ! allStats[ladder].hasOwnProperty(map)
+							|| ! allStats[ladder][map].hasOwnProperty(phase)) continue
+
+						for (const key in allStats[ladder][map][phase]) {
+							if (total[key] === undefined) total[key] = 0
+							total[key] += allStats[ladder][map][phase][key]
+
+							if (perMap[map][key] === undefined) perMap[map][key] = 0
+							perMap[map][key] += allStats[ladder][map][phase][key]
+						}
+					}
+				}
+			}
+
+			return [ perMap, total ]
 		},
 	},
 
 	computed: {
 		stats() {
-			const stats = { total: {} }
+			if (this.rowsAre === 'maps') {
+				const [ perMap, total ] = this.calculateStatsForPlayer(this.allStats)
+				perMap.total = total
 
-			for (const ladder of this.includedLadders) {
-				for (const map of this.includedMaps) {
-					if (! stats.hasOwnProperty(map)) stats[map] = {}
+				return perMap
+			}
 
-					for (const phase of this.includedPhases) {
-						if (! this.allStats.hasOwnProperty(ladder)
-							|| ! this.allStats[ladder].hasOwnProperty(map)
-							|| ! this.allStats[ladder][map].hasOwnProperty(phase)) continue
+			const stats = {}
 
-						for (const key in this.allStats[ladder][map][phase]) {
-							if (stats.total[key] === undefined) stats.total[key] = 0
-							stats.total[key] += this.allStats[ladder][map][phase][key]
-
-							if (stats[map][key] === undefined) stats[map][key] = 0
-							stats[map][key] += this.allStats[ladder][map][phase][key]
-						}
-					}
-				}
+			for (const id in this.allPlayers) {
+				stats[id] = this.calculateStatsForPlayer(this.allStats[id])[1]
 			}
 
 			return stats
 		},
 
 		weaponKills() {
-			const weapons = []
+			const weapons = {}
 
-			for (const stat in this.stats.total) {
-				if (! stat.startsWith('enemy_kills_')) continue
+			for (const player in (this.rowsAre === 'players' ? this.stats : { total: null })) {
+				for (let stat in this.stats[player]) {
+					if (! stat.startsWith('enemy_kills_')) continue
 
-				weapons.push([ stat.substring(12), this.stats.total[stat] ])
+					stat = stat.substring(12)
+					if (! weapons.hasOwnProperty(stat)) weapons[stat] = 0
+					weapons[stat] += this.stats[player][`enemy_kills_${stat}`]
+				}
 			}
 
-			return weapons.filter(([ _, k ]) => k !== 0).sort(([ _, a ], [ _1, b ]) => {
+			const kills = []
+
+			for (const weapon in weapons) {
+				kills.push([ weapon, weapons[weapon] ])
+			}
+
+			return kills.filter(([ _, k ]) => k !== 0).sort(([ _, a ], [ _1, b ]) => {
 				if (a < b) return 1
 				return (a === b) ? 0 : -1
 			})
 		},
 
 		includedMapsSorted() {
-			const maps = this.includedMaps.slice()
-			maps.push('total')
+			const maps = (this.rowsAre === 'maps')
+				? this.includedMaps.slice()
+				: Object.keys(this.allPlayers)
+
+			if (this.rowsAre === 'maps') maps.push('total')
 
 			const higher = (this.order[1]) ? 1 : -1
 			const lower = (this.order[1]) ? -1 : 1
+
+			const fallbackCriterion = (this.rowsAre === 'players')
+				? 'adr'
+				: 'matches_played'
 
 			return maps.sort((a, b) => {
 				let cA = this.criterion(this.order[0], a)
 				let cB = this.criterion(this.order[0], b)
 
-				if (cA === cB && this.order[0] !== 'matches_played') {
-					cA = this.criterion('matches_played', a)
-					cB = this.criterion('matches_played', b)
+				if (cA === cB && this.order[0] !== fallbackCriterion) {
+					cA = this.criterion(fallbackCriterion, a)
+					cB = this.criterion(fallbackCriterion, b)
 				}
 
 				if (cA === cB) return 0
@@ -343,6 +506,14 @@ export default {
 					? higher
 					: lower
 			})
+		},
+
+		firstRow() {
+			if (this.rowsAre === 'maps') return this.stats.total
+
+			for (const key in this.stats) {
+				return this.stats[key]
+			}
 		},
 	},
 

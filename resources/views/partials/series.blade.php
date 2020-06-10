@@ -14,7 +14,7 @@
 	</a>
 
 	@foreach ([$series->teamA, $series->teamB] as $team)
-		<div class="team-name {{ $loop->first ? '--a' : '--b' }}">
+		<a href="{{ route('team', $team->id) }}" class="team-name {{ $loop->first ? '--a' : '--b' }}">
 			<div>
 				@if ($team->flag)
 					<img src="https://countryflags.io/{{ $team->flag }}/flat/64.png" alt="{{ $team->flag }}" title="{{ $team->flag }}" class="inline-flag">
@@ -22,7 +22,7 @@
 
 				{{ $team->name }}
 			</div>
-		</div>
+		</a>
 
 		<div class="players {{ $loop->first ? '--a' : '--b' }}">
 			@foreach ($team->players->sortBy('display_name') as $player)

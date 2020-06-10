@@ -1,44 +1,52 @@
 <template>
 	<tr>
-		<td :title="map">
+		<td v-if="typeof map === 'string'" :title="map">
 			<div class="text-ellipsis">
 				{{ map }}
 			</div>
 		</td>
 
-		<td>
+		<td v-else :title="map.display_name">
+			<a :href="map.url" class="player-name">
+				<img v-if="map.flag" :src="`https://countryflags.io/${map.flag}/flat/64.png`" :alt="map.flag" :title="map.flag" class="inline-flag">
+
+				{{ map.display_name }}
+			</a>
+		</td>
+
+		<td v-if="rowsAre === 'maps'">
 			{{ n(stats.matches_played) / includedPhases }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ n(stats.matches_won) / includedPhases }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ nf(divide(stats.matches_won, stats.matches_played) * 100, 0) }}&nbsp;%
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ n(stats.matches_tied) / includedPhases }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ n(stats.matches_lost) / includedPhases }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ nf(divide(stats.round_difference, stats.matches_played), 2) }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ n(stats.rounds_played) }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ n(stats.rounds_won) }}
 		</td>
 
-		<td>
+		<td v-if="rowsAre === 'maps'">
 			{{ nf(divide(stats.rounds_won, stats.rounds_played) * 100, 0) }}&nbsp;%
 		</td>
 
@@ -84,6 +92,14 @@
 
 		<td>
 			{{ nf(divide(stats.enemy_headshot_kills, stats.enemy_kills) * 100, 0) }}&nbsp;%
+		</td>
+
+		<td v-if="rowsAre === 'players'">
+			{{ nf(divide(stats.enemy_trade_kills, stats.enemy_kills) * 100, 1) }}&nbsp;%
+		</td>
+
+		<td v-if="rowsAre === 'players'">
+			{{ nf(divide(stats.deaths_traded, stats.deaths) * 100, 1) }}&nbsp;%
 		</td>
 
 		<td>
@@ -168,6 +184,18 @@
 					+ n(stats.one_vs_5_kills)
 			}}
 		</td>
+
+		<td v-if="rowsAre === 'players'">
+			{{ nf(divide(n(stats.enemies_flashed), n(stats.rounds_played))) }}
+		</td>
+
+		<td v-if="rowsAre === 'players'">
+			{{ nf(divide(n(stats.enemies_flashed_duration), n(stats.enemies_flashed))) }}
+		</td>
+
+		<td v-if="rowsAre === 'players'">
+			{{ nf(divide(n(stats.enemies_flashed_duration), n(stats.rounds_played))) }}
+		</td>
 	</tr>
 </template>
 
@@ -177,6 +205,6 @@ import MathHelpers from '../Mixins/MathHelpers'
 export default {
 	mixins: [ MathHelpers ],
 
-	props: [ 'includedPhases', 'map', 'stats' ],
+	props: [ 'includedPhases', 'map', 'rowsAre', 'stats' ],
 }
 </script>
