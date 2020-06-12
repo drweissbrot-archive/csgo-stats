@@ -41,11 +41,11 @@
 								{{ team.score }}
 							</div>
 
-							<div class="name">
-								<img v-if="team.flag" :src="`https://countryflags.io/${team.flag}/flat/64.png`" :alt="team.flag" :title="team.flag">
+							<a :href="team.url" class="name">
+								<img v-if="team.flag" class="flag" :src="`https://countryflags.io/${team.flag}/flat/64.png`" :alt="team.flag" :title="team.flag">
 
-								{{ team.name }}
-							</div>
+								{{ team.name || 'Team ' + letter.toUpperCase() }}
+							</a>
 
 							<div class="additional-scores">
 								<img :src="icons[team.side_first_half]" :alt="team.side_first_half" class="side">
@@ -92,10 +92,13 @@
 							</div>
 						</td>
 
-						<td>
-							<a :href="playerRoute.replace('%', player.id)" class="player-name">
+						<td class="player-name-wrapper">
+							<a :href="playerRoute.replace('%', player.id)" class="player-name name-wrapper">
 								<img v-if="player.flag" :src="`https://countryflags.io/${player.flag}/flat/64.png`" :alt="player.flag" :title="player.flag" class="inline-flag">
-								{{ player.display_name }}
+
+								<span class="text-ellipsis">
+									{{ player.display_name }}
+								</span>
 							</a>
 						</td>
 

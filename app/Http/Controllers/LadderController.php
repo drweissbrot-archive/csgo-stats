@@ -12,7 +12,12 @@ class LadderController extends Controller
 	public function read(Ladder $ladder)
 	{
 		$ladder->load([
-			'series.ladder', 'series.teams.players',
+			'series.ladder',
+
+			'series.teams.players' => function ($players) {
+				$players->orderBy('display_name');
+			},
+
 			'series.matches' => function ($matches) {
 				$matches->withoutKnifeRounds()->with('map');
 			},

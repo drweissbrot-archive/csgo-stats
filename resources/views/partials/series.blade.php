@@ -20,12 +20,12 @@
 					<img src="https://countryflags.io/{{ $team->flag }}/flat/64.png" alt="{{ $team->flag }}" title="{{ $team->flag }}" class="inline-flag">
 				@endif
 
-				{{ $team->name }}
+				{{ $team->name ?: ($loop->first ? 'Team A' : 'Team B') }}
 			</div>
 		</a>
 
 		<div class="players {{ $loop->first ? '--a' : '--b' }}">
-			@foreach ($team->players->sortBy('display_name') as $player)
+			@foreach ($team->players as $player)
 				@if ($player->bot) @continue @endif
 
 				<a href="{{ route('player', $player->id) }}" class="player-name">

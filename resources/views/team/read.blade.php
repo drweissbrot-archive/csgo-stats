@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('document-title')
-	{{ $team->name }}
+	{{ $team->name ?: 'Unnamed Team' }}
 @endsection
 
 @section('page-title')
@@ -9,7 +9,7 @@
 		<img src="https://countryflags.io/{{ $team->flag }}/flat/64.png" alt="{{ $team->flag }}" title="{{ $team->flag }}" class="inline-flag">
 	@endif
 
-	{{ $team->name }}
+	{{ $team->name ?: 'Unnamed Team' }}
 @endsection
 
 @section('page-title-classes')

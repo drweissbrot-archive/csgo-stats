@@ -86,6 +86,7 @@ class SeriesController extends Controller
 				'side_first_half' => 'ct',
 				'side_second_half' => 't',
 
+				'url' => route('team', $team->id),
 				'name' => $team->name,
 				'flag' => $team->flag,
 				'players' => $team->players->map(function ($player) use ($stats) {

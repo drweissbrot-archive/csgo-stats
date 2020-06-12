@@ -49,6 +49,7 @@ class MatchController extends Controller
 				'side_first_half' => $match->{"team_{$letter}_started_on"},
 				'side_second_half' => otherTeam($match->{"team_{$letter}_started_on"}),
 
+				'url' => route('team', $team->id),
 				'name' => $team->name,
 				'flag' => $team->flag,
 				'players' => $team->players->map(function ($player) use ($stats) {

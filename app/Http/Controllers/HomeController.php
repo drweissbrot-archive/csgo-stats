@@ -12,7 +12,11 @@ class HomeController extends Controller
 	public function __invoke()
 	{
 		$latestSeries = Series::with([
-			'ladder', 'teams.players',
+			'ladder',
+
+			'teams.players' => function ($players) {
+				$players->orderBy('display_name');
+			},
 
 			'matches' => function ($matches) {
 				$matches->with('map')->withoutKnifeRounds();
