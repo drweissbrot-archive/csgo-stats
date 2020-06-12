@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('demo:intake')->everyFifteenMinutes()->withoutOverlapping();
+		$schedule->command('demo:intake')->twiceDaily(4, 17)->timezone('Europe/Berlin')->withoutOverlapping();
 		$schedule->command('steam:update-users')->weekly();
 	}
 
