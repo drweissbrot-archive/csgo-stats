@@ -8,14 +8,22 @@ use SteamID;
 
 class UpdateSteamUserDataCommand extends Command
 {
-	protected $signature = 'steam:update-users';
+	protected $signature = '
+		steam:update-users
+		{--force-all}
+	';
 
 	protected $description = 'Update Steam names, flags, and avatar URLs for all users';
 
 	public function handle()
 	{
 		$players = Player::where('steam_id', '!=', 'unknown_user')->where('steam_id', 'NOT LIKE', 'BOT%')
-			->get()->keyBy(function ($player) {
+			->where(function ($players) {
+				if (! $this->option('force-all')) {
+					$players->where('updated_at', '<=', today()->subDays(7))
+						->orWhereRaw('created_at = updated_at');
+				}
+			})->get()->keyBy(function ($player) {
 				return (new SteamID($player->steam_id))->convertToUInt64();
 			});
 
