@@ -37,25 +37,40 @@ class SeriesCreator
 		$t = $demo->get('teams')->get('t');
 		$ct = $demo->get('teams')->get('ct');
 
-		$sideA = 'ct';
-
-		if ($t->get('players')->contains(config('owner.steam_id'))) {
-			$sideA = 't';
-		} elseif ($ct->get('players')->contains(config('owner.steam_id'))) {
-			$sideA = 'ct';
-		} elseif (in_array($t->get('name'), explode(',', config('owner.teams')))) {
-			$sideA = 't';
-		} elseif (in_array($ct->get('name'), explode(',', config('owner.teams')))) {
-			$sideA = 'ct';
-		} elseif ($t->get('flag') === config('owner.flag') && $ct->get('flag') !== config('owner.flag')
-			|| $t->get('score') > $ct->get('score')) {
-			$sideA = 't';
-		}
+		$sideA = $this->findTeamASide($ct, $t);
 
 		$teamA = $this->findOrCreateTeamAndAssignPlayers($demo, $players, $sideA);
 		$teamB = $this->findOrCreateTeamAndAssignPlayers($demo, $players, otherTeam($sideA));
 
 		return [$teamA, $teamB];
+	}
+
+	protected function findTeamASide(Collection $ct, Collection $t) : string
+	{
+		$ownerSteamIds = explode(',', config('owner.steam_ids'));
+
+		if ($t->get('players')->contains(fn ($id) => in_array($id, $ownerSteamIds))) {
+			return 't';
+		}
+
+		if ($ct->get('players')->contains(fn ($id) => in_array($id, $ownerSteamIds))) {
+			return 'ct';
+		}
+
+		$ownerTeamNames = explode(',', config('owner.teams'));
+
+		if (in_array($t->get('name'), $ownerTeamNames)) {
+			return 't';
+		}
+
+		if (in_array($ct->get('name'), $ownerTeamNames)) {
+			return 'ct';
+		}
+
+		return ($t->get('flag') === config('owner.flag') && $ct->get('flag') !== config('owner.flag')
+			|| $t->get('score') > $ct->get('score'))
+			? 't'
+			: 'ct';
 	}
 
 	protected function findOrCreateTeamAndAssignPlayers(Collection $demo, Collection $players, string $side) : Team

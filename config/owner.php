@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'steam_id' => env('OWNER_STEAM_ID'),
+	'steam_ids' => env('OWNER_STEAM_IDS'),
 	'flag' => env('OWNER_STEAM_FLAG'),
 	'teams' => env('OWNER_TEAM_NAMES'),
 ];
