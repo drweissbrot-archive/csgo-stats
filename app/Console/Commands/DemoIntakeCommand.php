@@ -101,6 +101,7 @@ class DemoIntakeCommand extends Command
 					'node',
 					config('services.demo_parser'),
 					Storage::disk('demo_intake')->path("{$ladder->name}/{$seriesName}/{$file}"),
+					config('owner.steam_ids'),
 				]);
 
 				$process->mustRun();
