@@ -151,7 +151,7 @@ class ScoreBuilder
 
 					// Clutches
 					foreach (['a', 'b'] as $letter) {
-						if ($round->{"team_{$letter}_survived"} !== 1) {
+						if ($round->{"team_{$letter}_survived"} !== 1 || $round->{'team_' . otherTeam($letter) . '_survived'} === 0) {
 							continue;
 						}
 
