@@ -83,5 +83,12 @@ class MapsSeeder extends Seeder
 			'name' => 'de_vertigo',
 			'map_group' => 'active_duty',
 		]);
+
+		Map::create([
+			'display_name' => 'Default',
+			'filename' => 'x_default',
+			'name' => 'x_default',
+			'map_group' => 'x',
+		]);
 	}
 }
