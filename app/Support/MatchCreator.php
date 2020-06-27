@@ -41,7 +41,7 @@ class MatchCreator
 				'index_within_series' => $indexWithinSeries,
 				'is_knife_round' => $isKnife,
 
-				'round_count' => $demo->get('rounds')->last()->first()->get('number') + 1,
+				'round_count' => $demo->get('rounds')->last()->first(fn ($e) => in_array($e->get('type'), ['round_start', 'freeze_time_ended']))->get('number') + 1,
 				'max_rounds' => $demo->get('meta')->get('max_rounds'),
 				'has_halftime' => $demo->get('meta')->get('has_halftime'),
 
