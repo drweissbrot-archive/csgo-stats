@@ -77,13 +77,15 @@ class ScoreBuilder
 				if ($event instanceof DamageEvent) {
 					$attacker = $players->get($event->attacker_id);
 
+					// we're limiting damage to 100 hp per hit (this is not as accurate as limiting by the hp of the victim, but more reliable when bots are taken over)
+					$damage = min(100, $event->damage);
+
 					$this->playerPhase($attacker, $phase)->each->addNum(
-						($event->friendly_fire) ? 'team_damage' : 'enemy_damage',
-						$event->damage
+						($event->friendly_fire) ? 'team_damage' : 'enemy_damage', $damage
 					);
 
 					if (! $event->friendly_fire && in_array($event->weapon, static::GRENADES)) {
-						$this->playerPhase($attacker, $phase)->each->addNum('enemy_utility_damage', $event->damage);
+						$this->playerPhase($attacker, $phase)->each->addNum('enemy_utility_damage', $damage);
 					}
 				} elseif ($event instanceof DefuseEvent) {
 					$defuser = $players->get($event->defuser_id);
