@@ -73,7 +73,13 @@ class ScoreBuilder
 			$clutches = ['a' => false, 'b' => false];
 			$roundEnded = false;
 
-			foreach ($round->events as $event) {
+			$events = $round->events;
+
+			if ($round->freezeTimeEndedEvents->isNotEmpty()) {
+				$events = $events->skipUntil(fn ($event) => $event instanceof FreezeTimeEndedEvent);
+			}
+
+			foreach ($events as $event) {
 				if ($event instanceof DamageEvent) {
 					$attacker = $players->get($event->attacker_id);
 
