@@ -46,7 +46,7 @@ class PlayerController extends Controller
 		$series = $player->teams->pluck('series')->flatten(1);
 
 		return view('player.read', compact('player', 'series'), [
-			'steamId' => new SteamID($player->steam_id),
+			'steamId' => $player->bot ? null : new SteamID($player->steam_id),
 			'stats' => $this->buildStats($series, $player),
 			'matches' => $series->pluck('matches')->flatten(1),
 

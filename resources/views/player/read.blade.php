@@ -21,7 +21,7 @@
 		rows-are="maps"
 		series-played="{{ $series->count() }}"
 		:steam-data="{{ json_encode([
-			'url' => 'https://steamcommunity.com/profiles/' . $steamId->ConvertToUInt64(),
+			'url' => $steamId ? 'https://steamcommunity.com/profiles/' . $steamId->ConvertToUInt64() : null,
 			'name' => $player->steam_name,
 		]) }}"
 		:all-ladders="{{ app('all_ladders')->map->only('id', 'name') }}"

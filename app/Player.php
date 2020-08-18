@@ -8,6 +8,10 @@ class Player extends Model
 {
 	protected $guarded = [];
 
+	protected $casts = [
+		'bot' => 'bool',
+	];
+
 	public function teams()
 	{
 		return $this->belongsToMany(Team::class);
