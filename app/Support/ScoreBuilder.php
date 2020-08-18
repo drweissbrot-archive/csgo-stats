@@ -121,32 +121,32 @@ class ScoreBuilder
 					}
 
 					// Victim
-					$victim = $players->get($event->victim_id);
+					if ($victim = $players->get($event->victim_id)) {
+						$this->playerPhase($victim, $phase)->each->addNum('deaths', 1);
+						$this->playerPhase($victim, $phase)->first()->get('rounds')->last()->put('survived', false);
 
-					$this->playerPhase($victim, $phase)->each->addNum('deaths', 1);
-					$this->playerPhase($victim, $phase)->first()->get('rounds')->last()->put('survived', false);
+						$this->playerPhase($victim, $phase)->each->addNum(
+							'time_alive_ms',
+							($event->tick - $firstTick) / $match->tickrate,
+						);
 
-					$this->playerPhase($victim, $phase)->each->addNum(
-						'time_alive_ms',
-						($event->tick - $firstTick) / $match->tickrate,
-					);
+						$round->{"team_{$victim->get('team')}_survived"}--;
 
-					$round->{"team_{$victim->get('team')}_survived"}--;
+						if (array_key_exists($victim->get('team'), $clutches) && $clutches[$victim->get('team')]) {
+							$clutches[$victim->get('team')]->put('died', true);
+						}
 
-					if (array_key_exists($victim->get('team'), $clutches) && $clutches[$victim->get('team')]) {
-						$clutches[$victim->get('team')]->put('died', true);
-					}
+						// Trades (Victim and Attacker)
+						foreach ($this->playerPhase($victim, $phase)->first()->get('rounds')->last()->get('kills') as $killed => $tick) {
+							// consider people traded if their killer is killed within 10 seconds
+							if ($tick >= ($event->tick - 10 * $match->tickrate)) {
+								$this->playerPhase($players->get($killed), $phase)->each->addNum('deaths_traded', 1);
 
-					// Trades (Victim and Attacker)
-					foreach ($this->playerPhase($victim, $phase)->first()->get('rounds')->last()->get('kills') as $killed => $tick) {
-						// consider people traded if their killer is killed within 10 seconds
-						if ($tick >= ($event->tick - 10 * $match->tickrate)) {
-							$this->playerPhase($players->get($killed), $phase)->each->addNum('deaths_traded', 1);
+								$this->playerPhase($players->get($killed), $phase)->first()->get('rounds')->last()->put('traded', true);
 
-							$this->playerPhase($players->get($killed), $phase)->first()->get('rounds')->last()->put('traded', true);
-
-							if (! $event->teamkill) {
-								$this->playerPhase($attacker, $phase)->each->addNum('enemy_trade_kills', 1);
+								if (! $event->teamkill) {
+									$this->playerPhase($attacker, $phase)->each->addNum('enemy_trade_kills', 1);
+								}
 							}
 						}
 					}
