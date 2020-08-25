@@ -1,0 +1,84 @@
+.cards {
+	display flex
+	justify-content space-around
+}
+
+.card {
+	padding 1rem 2rem
+	background #ae
+	border-right none !important
+	color #21
+	text-align center
+
+	h3 {
+		display flex
+		align-items center
+		justify-content space-around
+	}
+}
+
+.ct .card {
+	background $cts
+}
+
+.t .card {
+	background $terrorists
+}
+
+.number {
+	margin-right 2rem
+}
+
+.pip {
+	width 2.5rem
+	height .3rem
+	background #000
+
+	margin .5rem
+
+	&:not(.--filled) {
+		opacity .4
+	}
+}
+
+.full-buy {
+	font-weight bold
+	flsize(3rem, 1.25)
+}
+
+.desperate {
+	flsize(2rem, 1.25)
+}
+
+.heading {
+	&,
+	h2,
+	.full-buy,
+	.desperate {
+		display flex
+		align-items center
+		justify-content space-around
+	}
+
+	img {
+		max-height 1em
+		filter brightness(0.9176)
+		margin 0 .75rem
+
+		&.weapon:first-of-type {
+			margin-left 2rem
+		}
+
+		&:not(.weapon) {
+			margin 0 1rem 0 0
+		}
+	}
+}
+
+section {
+	margin-top 2rem
+
+	&:not(:last-child) {
+		margin-bottom 8rem
+	}
+}

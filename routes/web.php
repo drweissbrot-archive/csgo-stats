@@ -29,3 +29,6 @@ Route::get('/player/{player}', PlayerController::class)
 
 Route::get('/team/{team}', TeamController::class)
 	->name('team');
+
+Route::get('/loss-bonus-buys', LossBonusBuysController::class)
+	->name('loss-bonus-buys');
