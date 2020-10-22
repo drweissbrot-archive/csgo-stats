@@ -39,6 +39,18 @@
 						Status
 					</a>
 				</li>
+
+				<li>
+					<a href="{{ route('loss-bonus-buys') }}">
+						Buys
+					</a>
+				</li>
+
+				<li>
+					<a href="{{ route('loss-bonus-buys-wingman') }}">
+						(Wingman)
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</header>
