@@ -32,3 +32,6 @@ Route::get('/team/{team}', TeamController::class)
 
 Route::get('/loss-bonus-buys', LossBonusBuysController::class)
 	->name('loss-bonus-buys');
+
+Route::get('/loss-bonus-buys/wingman', 'LossBonusBuysController@wingman')
+	->name('loss-bonus-buys-wingman');

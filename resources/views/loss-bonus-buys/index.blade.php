@@ -56,11 +56,11 @@
 						</h3>
 
 						<div class="full-buy">
-							$&nbsp;{{ nf($prices["{$abbr}_full"] - 1400 - $i * 500) }}
+							$&nbsp;{{ nf($prices["{$abbr}_full"] - $initialBonus - $i * $bonusIncrement) }}
 						</div>
 
 						<div class="desperate">
-							$&nbsp;{{ nf($prices["{$abbr}_desperate"] - 1400 - $i * 500) }}
+							$&nbsp;{{ nf($prices["{$abbr}_desperate"] - $initialBonus - $i * $bonusIncrement) }}
 						</div>
 					</div>
 				@endfor

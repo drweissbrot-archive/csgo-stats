@@ -35,6 +35,18 @@ class LossBonusBuysController extends Controller
 		return view('loss-bonus-buys.index', [
 			'loadouts' => static::LOADOUTS,
 			'prices' => $this->calculateLoadoutPrices(),
+			'initialBonus' => 1400,
+			'bonusIncrement' => 500,
+		]);
+	}
+
+	public function wingman()
+	{
+		return view('loss-bonus-buys.wingman', [
+			'loadouts' => static::LOADOUTS,
+			'prices' => $this->calculateLoadoutPrices(),
+			'initialBonus' => 2000,
+			'bonusIncrement' => 300,
 		]);
 	}
 
