@@ -30,8 +30,14 @@ Route::get('/player/{player}', PlayerController::class)
 Route::get('/team/{team}', TeamController::class)
 	->name('team');
 
-Route::get('/loss-bonus-buys', LossBonusBuysController::class)
-	->name('loss-bonus-buys');
+Route::get('/loss-bonus-buys/m4a1', 'LossBonusBuysController@m4a1')
+	->name('loss-bonus-buys.m4a1');
 
-Route::get('/loss-bonus-buys/wingman', 'LossBonusBuysController@wingman')
-	->name('loss-bonus-buys-wingman');
+Route::get('/loss-bonus-buys/m4a4', 'LossBonusBuysController@m4a4')
+	->name('loss-bonus-buys.m4a4');
+
+Route::get('/loss-bonus-buys/wingman/m4a1', 'LossBonusBuysController@wingman_m4a1')
+	->name('loss-bonus-buys.wingman-m4a1');
+
+Route::get('/loss-bonus-buys/wingman/m4a4', 'LossBonusBuysController@wingman_m4a4')
+	->name('loss-bonus-buys.wingman-m4a4');

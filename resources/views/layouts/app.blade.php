@@ -41,14 +41,8 @@
 				</li>
 
 				<li>
-					<a href="{{ route('loss-bonus-buys') }}">
+					<a href="{{ route('loss-bonus-buys.m4a1') }}">
 						Buys
-					</a>
-				</li>
-
-				<li>
-					<a href="{{ route('loss-bonus-buys-wingman') }}">
-						(Wingman)
 					</a>
 				</li>
 			</ul>

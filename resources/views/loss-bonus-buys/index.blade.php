@@ -1,10 +1,38 @@
 @extends('layouts.app')
 
 @section('page-title')
-	Loss Bonus Buys
+	Loss Bonus Buys {{ $title }}
 @endsection
 
 @section('content')
+	<nav class="loadouts">
+		<ul>
+			<li>
+				<a href="{{ route('loss-bonus-buys.m4a1') }}">
+					Competetive M4A1
+				</a>
+			</li>
+
+			<li>
+				<a href="{{ route('loss-bonus-buys.m4a4') }}">
+					Competetive M4A4
+				</a>
+			</li>
+
+			<li>
+				<a href="{{ route('loss-bonus-buys.wingman-m4a1') }}">
+					Wingman M4A1
+				</a>
+			</li>
+
+			<li>
+				<a href="{{ route('loss-bonus-buys.wingman-m4a4') }}">
+					Wingman M4A4
+				</a>
+			</li>
+		</ul>
+	</nav>
+
 	@foreach (['ct' => 'Counter-Terrorists', 't' => 'Terrorists', 'awp' => 'AWP'] as $abbr => $label)
 		<section class="{{ $abbr }}">
 			<div class="heading">

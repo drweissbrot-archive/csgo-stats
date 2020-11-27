@@ -10,6 +10,7 @@ class LossBonusBuysController extends Controller
 		'defuser' => 400,
 
 		'm4a1_silencer' => 2900,
+		'm4a1' => 3100,
 		'ak47' => 2700,
 		'awp' => 4750,
 
@@ -30,31 +31,53 @@ class LossBonusBuysController extends Controller
 		'awp_desperate' => ['kevlar', 'awp'],
 	];
 
-	public function __invoke()
+	public function m4a1()
+	{
+		return $this->view('M4A1', static::LOADOUTS);
+	}
+
+	public function m4a4()
+	{
+		return $this->view('M4A4', $this->replaceLoadouts('m4a1_silencer', 'm4a1'));
+	}
+
+	public function wingman_m4a1()
+	{
+		return $this->view('Wingman M4A1', static::LOADOUTS, 2000, 300);
+	}
+
+	public function wingman_m4a4()
+	{
+		return $this->view('Wingman M4A4', $this->replaceLoadouts('m4a1_silencer', 'm4a1'), 2000, 300);
+	}
+
+	protected function view(string $title, $loadouts, $initialBonus = 1400, $bonusIncrement = 500)
 	{
 		return view('loss-bonus-buys.index', [
-			'loadouts' => static::LOADOUTS,
-			'prices' => $this->calculateLoadoutPrices(),
-			'initialBonus' => 1400,
-			'bonusIncrement' => 500,
-		]);
+			'prices' => $this->calculateLoadoutPrices($loadouts),
+		], compact('title', 'loadouts', 'initialBonus', 'bonusIncrement'));
 	}
 
-	public function wingman()
+	protected function replaceLoadouts(string $needle, string $replacement) : array
 	{
-		return view('loss-bonus-buys.wingman', [
-			'loadouts' => static::LOADOUTS,
-			'prices' => $this->calculateLoadoutPrices(),
-			'initialBonus' => 2000,
-			'bonusIncrement' => 300,
-		]);
+		$loadouts = static::LOADOUTS;
+
+		foreach ($loadouts as $loadout => $weapons) {
+			foreach ($weapons as $i => $weapon) {
+				if ($weapon === $needle) {
+					$loadouts[$loadout][$i] = $replacement;
+				}
+			}
+		}
+
+		return $loadouts;
 	}
 
-	protected function calculateLoadoutPrices() : array
+	protected function calculateLoadoutPrices(array $loadouts) : array
 	{
 		$prices = [];
 
-		foreach (static::LOADOUTS as $loadout => $items) {
+		foreach ($loadouts as $loadout => $items) {
 			$price = 0;
 
 			foreach ($items as $item) {
