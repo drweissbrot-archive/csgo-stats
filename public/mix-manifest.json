@@ -1,6 +1,6 @@
 {
     "/js/app.js": "/js/app.js?id=51bb192559bdf430cfda",
-    "/css/app.css": "/css/app.css?id=9c84724639a5a88c6fab",
+    "/css/app.css": "/css/app.css?id=2ac1786bbdaa9df9116c",
     "/images/bombsite-a.svg": "/images/bombsite-a.svg?id=4fa0ea87bec210ec5912",
     "/images/bombsite-b.svg": "/images/bombsite-b.svg?id=66ccef78f6ab20f2bb2a",
     "/images/ct.svg": "/images/ct.svg?id=aa7034247dbac960b779",
@@ -124,5 +124,10 @@
     "/images/vest.svg": "/images/vest.svg?id=d4f828fe3aa177ea5b1b",
     "/images/vesthelm.svg": "/images/vesthelm.svg?id=3f78111ed027f13ac196",
     "/images/worldspawn.svg": "/images/worldspawn.svg?id=3467050d705c06a881c1",
-    "/images/xm1014.svg": "/images/xm1014.svg?id=ef0374fb7538c773c213"
+    "/images/xm1014.svg": "/images/xm1014.svg?id=ef0374fb7538c773c213",
+    "/images/competitive.svg": "/images/competitive.svg?id=74460cf70223d4bc208c",
+    "/images/cooperative.svg": "/images/cooperative.svg?id=5c9e46cce2330e38bd4e",
+    "/images/coopmission.svg": "/images/coopmission.svg?id=b0cea63e8bc96176847f",
+    "/images/deathmatch.svg": "/images/deathmatch.svg?id=f0ccd673cc9f832e849c",
+    "/images/scrimcomp2v2.svg": "/images/scrimcomp2v2.svg?id=d5373a1a5d5609d65827"
 }

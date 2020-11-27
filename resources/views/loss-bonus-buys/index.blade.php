@@ -8,26 +8,28 @@
 	<nav class="loadouts">
 		<ul>
 			<li>
-				<a href="{{ route('loss-bonus-buys.m4a1') }}">
-					Competetive M4A1
+				<a href="{{ route('loss-bonus-buys.m4a1') }}" title="Competitive M4A1">
+					<img src="{{ mix('images/competitive.svg') }}" alt="Competitive">
+					M4A1
 				</a>
 			</li>
 
 			<li>
-				<a href="{{ route('loss-bonus-buys.m4a4') }}">
-					Competetive M4A4
+				<a href="{{ route('loss-bonus-buys.m4a4') }}" title="Competitive M4A4">
+					M4A4
 				</a>
 			</li>
 
 			<li>
-				<a href="{{ route('loss-bonus-buys.wingman-m4a1') }}">
-					Wingman M4A1
+				<a href="{{ route('loss-bonus-buys.wingman-m4a1') }}" title="Wingman M4A1">
+					<img src="{{ mix('images/scrimcomp2v2.svg') }}" alt="Wingman">
+					M4A1
 				</a>
 			</li>
 
 			<li>
-				<a href="{{ route('loss-bonus-buys.wingman-m4a4') }}">
-					Wingman M4A4
+				<a href="{{ route('loss-bonus-buys.wingman-m4a4') }}" title="Wingman M4A4">
+					M4A4
 				</a>
 			</li>
 		</ul>
