@@ -18,7 +18,13 @@
 
 						<div class="event --player-name player-name">
 							@if ($player->flag)
-								<img src="https://countryflags.io/{{ $player->flag }}/flat/64.png" alt="{{ $player->flag }}" title="{{ $player->flag }}" class="inline-flag">
+								<img
+									class="inline-flag"
+									src="https://flagcdn.com/h60/{{ $player->flag }}.png"
+									srcset="https://flagcdn.com/h120/{{ $player->flag }}.png 2x"
+									alt="{{ $player->flag }}"
+									title="{{ $player->flag }}"
+								>
 							@endif
 							{{ $player->display_name }}’s Performance
 						</div>

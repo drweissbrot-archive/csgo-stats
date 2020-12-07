@@ -17,7 +17,13 @@
 		<a href="{{ route('team', $team->id) }}" class="team-name {{ $loop->first ? '--a' : '--b' }}">
 			<div>
 				@if ($team->flag)
-					<img src="https://countryflags.io/{{ $team->flag }}/flat/64.png" alt="{{ $team->flag }}" title="{{ $team->flag }}" class="inline-flag">
+					<img
+						class="inline-flag"
+						src="https://flagcdn.com/h60/{{ $team->flag }}.png"
+						srcset="https://flagcdn.com/h120/{{ $team->flag }}.png 2x"
+						alt="{{ $team->flag }}"
+						title="{{ $team->flag }}"
+					>
 				@endif
 
 				{{ $team->name ?: ($loop->first ? 'Team A' : 'Team B') }}
@@ -30,7 +36,13 @@
 
 				<a href="{{ route('player', $player->id) }}" class="player-name">
 					@if ($player->flag)
-						<img src="https://countryflags.io/{{ $player->flag }}/flat/64.png" alt="{{ $player->flag }}" title="{{ $player->flag }}" class="inline-flag">
+						<img
+							class="inline-flag"
+							src="https://flagcdn.com/h60/{{ $player->flag }}.png"
+							srcset="https://flagcdn.com/h120/{{ $player->flag }}.png 2x"
+							alt="{{ $player->flag }}"
+							title="{{ $player->flag }}"
+						>
 					@endif
 
 					{{ $player->display_name }}

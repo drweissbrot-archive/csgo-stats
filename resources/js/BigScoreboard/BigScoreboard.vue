@@ -42,7 +42,14 @@
 							</div>
 
 							<a :href="team.url" class="name">
-								<img v-if="team.flag" class="flag" :src="`https://countryflags.io/${team.flag}/flat/64.png`" :alt="team.flag" :title="team.flag">
+								<img
+									v-if="team.flag"
+									class="flag"
+									:src="`https://flagcdn.com/h60/${team.flag}.png`"
+									:srcset="`https://flagcdn.com/h120/${team.flag}.png 2x`"
+									:alt="team.flag"
+									:title="team.flag"
+								>
 
 								{{ team.name || 'Team ' + letter.toUpperCase() }}
 							</a>
@@ -94,7 +101,14 @@
 
 						<td class="player-name-wrapper">
 							<a :href="playerRoute.replace('%', player.id)" class="player-name name-wrapper">
-								<img v-if="player.flag" :src="`https://countryflags.io/${player.flag}/flat/64.png`" :alt="player.flag" :title="player.flag" class="inline-flag">
+								<img
+									v-if="player.flag"
+									class="inline-flag"
+									:src="`https://flagcdn.com/h60/${player.flag}.png`"
+									:srcset="`https://flagcdn.com/h120/${player.flag}.png 2x`"
+									:alt="player.flag"
+									:title="player.flag"
+								>
 
 								<span class="text-ellipsis">
 									{{ player.display_name }}

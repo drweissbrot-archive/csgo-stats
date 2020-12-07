@@ -6,7 +6,13 @@
 
 @section('page-title')
 	@if ($team->flag)
-		<img src="https://countryflags.io/{{ $team->flag }}/flat/64.png" alt="{{ $team->flag }}" title="{{ $team->flag }}" class="inline-flag">
+		<img
+			class="inline-flag"
+			src="https://flagcdn.com/h60/{{ $team->flag }}.png"
+			srcset="https://flagcdn.com/h120/{{ $team->flag }}.png 2x"
+			alt="{{ $team->flag }}"
+			title="{{ $team->flag }}"
+		>
 	@endif
 
 	{{ $team->name ?: 'Unnamed Team' }}

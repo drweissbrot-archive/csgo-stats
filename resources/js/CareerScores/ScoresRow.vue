@@ -8,7 +8,14 @@
 
 		<td v-else :title="map.display_name">
 			<a :href="map.url" class="player-name">
-				<img v-if="map.flag" :src="`https://countryflags.io/${map.flag}/flat/64.png`" :alt="map.flag" :title="map.flag" class="inline-flag">
+				<img
+					v-if="map.flag"
+					class="inline-flag"
+					:src="`https://flagcdn.com/h60/${map.flag}.png`"
+					:srcset="`https://flagcdn.com/h120/${map.flag}.png 2x`"
+					:alt="map.flag"
+					:title="map.flag"
+				>
 
 				{{ map.display_name }}
 			</a>
