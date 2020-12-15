@@ -5,6 +5,7 @@ mix.js('resources/js/app.js', 'public/js')
 .copy('resources/img/*', 'public/images')
 .copy('resources/img/weapons/*', 'public/images')
 .copy('resources/img/gamemodes/*', 'public/images')
+.disableSuccessNotifications()
 
 if (mix.inProduction()) {
 	mix.version()
