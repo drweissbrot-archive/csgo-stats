@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
 
 class DemoIntakeCommand extends Command
 {
-	protected $signature = 'demo:intake';
+	protected $signature = 'demo:import';
 
 	protected $description = 'Check all the demo intake directory for demos, parse them, and add load them into the database.';
 
