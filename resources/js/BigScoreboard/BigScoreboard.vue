@@ -144,6 +144,12 @@
 						<td>{{ nf(divide(stats[player.id].enemy_kills, roundCount[letter]), 2) }}</td>
 						<td>{{ nf(divide(stats[player.id].deaths, roundCount[letter]), 2) }}</td>
 						<td>
+							{{ nf(hltvRating2(player.id, roundCount[letter]), 2) }}
+						</td>
+						<td>
+							{{ nf(hltvImpactRating(player.id, roundCount[letter]), 2) }}
+						</td>
+						<td>
 							{{
 								nf(divide(stats[player.id].time_alive_ms, stats[player.id].max_alive_time_ms) * 100, 0)
 							}}%
@@ -189,11 +195,9 @@
 						<td>{{ stats[player.id].enemy_flash_assists }}</td>
 						<td>{{ stats[player.id].enemies_flashed }}</td>
 						<td>{{ nf(stats[player.id].enemies_flashed_duration) }}</td>
-						<td>{{ stats[player.id].plants }}</td>
-						<td>{{ stats[player.id].defuses }}</td>
+						<td>{{ stats[player.id].plants + stats[player.id].defuses }}</td>
 
-						<td>{{ stats[player.id].team_kills }}</td>
-						<td>{{ stats[player.id].team_assists }}</td>
+						<td>{{ stats[player.id].team_kills + stats[player.id].team_assists }}</td>
 						<td>{{ stats[player.id].team_damage }}</td>
 						<td>{{ stats[player.id].teammates_flashed }}</td>
 						<td>{{ nf(stats[player.id].teammates_flashed_duration) }}</td>
@@ -339,6 +343,14 @@ export default {
 				return this.stats[player.id].deaths_traded / this.stats[player.id].deaths
 			}
 
+			if (criterion === 'rating2.0') {
+				return this.hltvRating2(player.id)
+			}
+
+			if (criterion === 'impact') {
+				return this.hltvImpactRating(player.id)
+			}
+
 			if (criterion === 'clutch_kills') {
 				return this.stats[player.id].one_vs_1_kills + this.stats[player.id].one_vs_2_kills + this.stats[player.id].one_vs_3_kills + this.stats[player.id].one_vs_4_kills + this.stats[player.id].one_vs_5_kills
 			}
@@ -355,6 +367,14 @@ export default {
 				)
 			}
 
+			if (criterion === 'plants_defuses') {
+				return this.stats[player.id].plants + this.stats[player.id].defuses
+			}
+
+			if (criterion === 'team_kills_assists') {
+				return this.stats[player.id].team_kills + this.stats[player.id].team_assists
+			}
+
 			return this.stats[player.id][criterion]
 		},
 
@@ -363,6 +383,25 @@ export default {
 			if (number === 3) return 'ct'
 
 			throw false
+		},
+
+		hltvRating2(playerId, rounds) {
+			if (rounds === undefined) rounds = this.roundCount[this.teams.a.players.find(({ id }) => playerId) ? 'a' : 'b']
+
+			return .0073 * this.divide(this.stats[playerId].kast_rounds, rounds)
+				+ .3591 * this.divide(this.stats[playerId].enemy_kills, rounds)
+				- .5329 * this.divide(this.stats[playerId].deaths, rounds)
+				+ .2372 * this.hltvImpactRating(playerId, rounds)
+				+ .0032 * this.divide(this.stats[playerId].enemy_damage, rounds)
+				+ .1587
+		},
+
+		hltvImpactRating(playerId, rounds) {
+			if (rounds === undefined) rounds = this.roundCount[this.teams.a.players.find(({ id }) => playerId) ? 'a' : 'b']
+
+			return 2.13 * this.divide(this.stats[playerId].enemy_kills, rounds)
+				+ .42 * this.divide(this.stats[playerId].enemy_assists, rounds)
+				- .41
 		},
 	},
 

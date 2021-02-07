@@ -58,4 +58,17 @@
 			</p>
 		@endforelse
 	</section>
+
+	<section>
+		<h2>
+			Notes on HLTV Rating 2.0 and HLTV Impact Rating
+		</h2>
+
+		<p>
+			The formulas for calculating HLTV Rating 2.0 and HLTV Impact Rating are from the blog post
+			<a href="https://flashed.gg/posts/reverse-engineering-hltv-rating/">Reverse Engineering the HLTV 2.0 Rating</a>
+			written by Dave; as of February 7, 2021.
+			Slight differences to HLTV's own calculations are expected.
+		</p>
+	</section>
 @endsection

@@ -47,6 +47,8 @@ export default {
 				},
 				{ criterion: 'enemy_kills', title: 'Average Kills per Round', heading: 'KPR' },
 				{ criterion: 'deaths', title: 'Average Deaths per Round', heading: 'DPR' },
+				{ criterion: 'rating2.0', title: 'HLTV Rating 2.0', heading: 'RT2' },
+				{ criterion: 'impact', title: 'HLTV Impact Rating', heading: 'IMP' },
 				{ criterion: 'time_alive_ms', title: 'Average time per round the player was alive', heading: 'ALV' },
 				{ criterion: '0_kill_rounds', title: 'Rounds in which the player had 0 kills', heading: '0K' },
 				{ criterion: '1_kill_rounds', title: 'Rounds in which the player had 1 kill', heading: '1K' },
@@ -67,11 +69,9 @@ export default {
 					title: 'Total duration that enemies were blinded for from flashbangs thrown by the player',
 					heading: 'FD',
 				},
-				{ criterion: 'plants', title: 'Plants', heading: 'P' },
-				{ criterion: 'defuses', title: 'Defuses', heading: 'D' },
+				{ criterion: 'plants_defuses', title: 'Plants + Defuses', heading: 'P+D' },
 
-				{ criterion: 'team_kills', title: 'Team Kills', heading: 'TK' },
-				{ criterion: 'team_assists', title: 'Team Assists', heading: 'TA' },
+				{ criterion: 'team_kills_assists', title: 'Team Kills + Assists', heading: 'TK+A' },
 				{ criterion: 'team_damage', title: 'Team Damage', heading: 'TD' },
 				{ criterion: 'teammates_flashed', title: 'Teammates Flashed', heading: 'TF' },
 				{
