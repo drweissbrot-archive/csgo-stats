@@ -98,7 +98,6 @@
 
 							<strong>
 								$&nbsp;{{ nf($prices["{$abbr}_full"] - $initialBonus - $i * $bonusIncrement - $initialBonus - min($i + 1, 4) * $bonusIncrement) }}
-								({{ $initialBonus + $i * $bonusIncrement }}, {{ $initialBonus + min($i + 1, 4) * $bonusIncrement }})
 							</strong>
 						</div>
 					</div>
