@@ -2,12 +2,12 @@
 
 namespace App\Support;
 
+use App\CsMatch;
 use App\DamageEvent;
 use App\DefuseEvent;
 use App\FlashedEvent;
 use App\FreezeTimeEndedEvent;
 use App\KillEvent;
-use App\Match;
 use App\MvpEvent;
 use App\PlantEvent;
 use App\Player;
@@ -20,7 +20,7 @@ class ScoreBuilder
 		'breachcharge', 'breachcharge_projectile', 'bumpmine', 'controldrone', 'dronegun', 'exojump', 'firebomb', 'frag_grenade', 'hegrenade', 'incgrenade', 'inferno', 'missile', 'molotov', 'prop_exploding_barrel', 'radarjammer', 'stomp_damage', 'survival_safe', 'tagrenade',
 	];
 
-	public function buildScores(Match $match)
+	public function buildScores(CsMatch $match)
 	{
 		$phase = [
 			'round' => 0,

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Match;
+use App\CsMatch;
 use DB;
 use Facades\App\Support\ScoreBuilder;
 use Illuminate\Console\Command;
@@ -16,7 +16,7 @@ class UpdatePlayerMatchStatsCommand extends Command
 	public function handle()
 	{
 		DB::transaction(function () {
-			$match = Match::find($this->argument('matchId'));
+			$match = CsMatch::find($this->argument('matchId'));
 
 			$match->playerMatchStats()->delete();
 

@@ -2,8 +2,8 @@
 
 namespace App\Support;
 
+use App\CsMatch;
 use App\Map;
-use App\Match;
 use App\Series;
 use App\Support\Concerns\FindsAndCreatesPlayers;
 use App\Team;
@@ -25,7 +25,7 @@ class MatchCreator
 		Carbon $startedAt,
 		string $demoPath = null,
 		string $notes = null
-	) : Match {
+	) : CsMatch {
 		return DB::transaction(function () use ($demo, $series, $indexWithinSeries, $isKnife, $startedAt, $demoPath, $notes) {
 			$series->loadMissing('teams.players');
 
@@ -172,7 +172,7 @@ class MatchCreator
 		];
 	}
 
-	protected function findTeamAStartingSide(Match $match, string $sideA) : string
+	protected function findTeamAStartingSide(CsMatch $match, string $sideA) : string
 	{
 		if (! $match->has_halftime) {
 			return $sideA;

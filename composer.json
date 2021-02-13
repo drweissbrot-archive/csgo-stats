@@ -1,11 +1,11 @@
 {
 	"require": {
-		"php": "^7.4",
+		"php": "^8.0",
 		"doctrine/dbal": "^3.0",
 		"fideloper/proxy": "^4.4",
 		"goldspecdigital/laravel-eloquent-uuid": "^8.0",
 		"guzzlehttp/guzzle": "^7.2",
-		"laravel/framework": "^8.26",
+		"laravel/framework": "^8.27",
 		"laravel/tinker": "^2.6",
 		"xpaw/steamid": "^2.0"
 	},
@@ -53,9 +53,6 @@
 	"require-dev": {
 		"beyondcode/laravel-dump-server": "^1.7",
 		"facade/ignition": "^2.5",
-		"fzaninotto/faker": "^1.9",
-		"mockery/mockery": "^1.4",
-		"nunomaduro/collision": "^5.3",
-		"phpunit/phpunit": "^9.5"
+		"nunomaduro/collision": "^5.3"
 	}
 }

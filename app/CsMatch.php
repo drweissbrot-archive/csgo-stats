@@ -5,9 +5,11 @@ namespace App;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Match extends Model
+class CsMatch extends Model
 {
 	protected $guarded = [];
+
+	protected $table = 'matches';
 
 	protected $dates = ['started_at'];
 
@@ -23,7 +25,7 @@ class Match extends Model
 
 	public function rounds()
 	{
-		return $this->hasMany(Round::class)
+		return $this->hasMany(Round::class, 'match_id')
 			->orderBy('round_no', 'ASC');
 	}
 
@@ -39,7 +41,7 @@ class Match extends Model
 
 	public function playerMatchStats()
 	{
-		return $this->hasMany(PlayerMatchStat::class);
+		return $this->hasMany(PlayerMatchStat::class, 'match_id');
 	}
 
 	// cf. https://github.com/saul/demofile/issues/146#issuecomment-615862422

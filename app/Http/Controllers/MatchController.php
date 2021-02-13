@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BotTakeoverEvent;
+use App\CsMatch;
 use App\DamageEvent;
 use App\DefuseEvent;
 use App\FlashbangDetonatedEvent;
@@ -10,7 +11,6 @@ use App\FlashedEvent;
 use App\FreezeTimeEndedEvent;
 use App\ItemPickupEvent;
 use App\KillEvent;
-use App\Match;
 use App\PlantEvent;
 use App\Player;
 use App\Round;
@@ -22,7 +22,7 @@ class MatchController extends Controller
 {
 	use FindsTeamOfPlayer;
 
-	public function read(Match $match)
+	public function read(CsMatch $match)
 	{
 		$match->load([
 			'series.teams.players', 'series.ladder',
@@ -111,7 +111,7 @@ class MatchController extends Controller
 		return view('match.read', compact('match', 'teams', 'rounds', 'roundsPlayed'));
 	}
 
-	public function teamRoundPerformance(Match $match)
+	public function teamRoundPerformance(CsMatch $match)
 	{
 		$match->load([
 			'map', 'series.teams.players', 'series.ladder',
@@ -128,7 +128,7 @@ class MatchController extends Controller
 		return view('match.team-round-performance', compact('match', 'rounds'));
 	}
 
-	public function playerRoundPerformance(Match $match, Player $player)
+	public function playerRoundPerformance(CsMatch $match, Player $player)
 	{
 		$match->load([
 			'series.ladder', 'series.teams.players', 'map',
@@ -292,14 +292,14 @@ class MatchController extends Controller
 		return view('match.player-round-performance', compact('match', 'player', 'rounds'));
 	}
 
-	public function downloadDemo(Match $match)
+	public function downloadDemo(CsMatch $match)
 	{
 		abort_unless($match->demo_path, 404);
 
 		return Storage::disk('demos')->download($match->demo_path);
 	}
 
-	protected function roundToTeamPerformanceData(Round $round, Match $match, Team $teamA, Team $teamB)
+	protected function roundToTeamPerformanceData(Round $round, CsMatch $match, Team $teamA, Team $teamB)
 	{
 		$killOrder = collect();
 
@@ -519,7 +519,7 @@ class MatchController extends Controller
 		}));
 	}
 
-	protected function time(int $tick, int $firstTick, Match $match) : float
+	protected function time(int $tick, int $firstTick, CsMatch $match) : float
 	{
 		return ($tick - $firstTick) / $match->tickrate;
 	}

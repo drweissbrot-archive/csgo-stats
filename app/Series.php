@@ -20,7 +20,7 @@ class Series extends Model
 
 	public function matches()
 	{
-		return $this->hasMany(Match::class)
+		return $this->hasMany(CsMatch::class)
 			->orderBy('index_within_series');
 	}
 

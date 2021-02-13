@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\CsMatch;
 use App\Ladder;
 use App\Map;
-use App\Match;
 
 class StatusController extends Controller
 {
@@ -20,7 +20,7 @@ class StatusController extends Controller
 			},
 		]);
 
-		$matchesWithRoundMismatch = Match::select('id', 'started_at', 'series_id', 'map_id', 'team_a_score', 'team_b_score')
+		$matchesWithRoundMismatch = CsMatch::select('id', 'started_at', 'series_id', 'map_id', 'team_a_score', 'team_b_score')
 			->where('map_id', '!=', Map::whereName('x_default')->first()->id)
 			->with([
 				'series.ladder', 'map',
