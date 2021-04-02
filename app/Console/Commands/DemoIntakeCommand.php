@@ -104,6 +104,7 @@ class DemoIntakeCommand extends Command
 					config('owner.steam_ids'),
 				]);
 
+				$process->setTimeout(180);
 				$process->mustRun();
 				$demoJson = $process->getOutput();
 				$demo = collect(json_decode($demoJson))->recursive();
