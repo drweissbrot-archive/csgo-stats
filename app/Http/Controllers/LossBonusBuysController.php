@@ -18,16 +18,17 @@ class LossBonusBuysController extends Controller
 		'molotov' => 400,
 		'smokegrenade' => 300,
 		'flashbang' => 200,
+		'hegrenade' => 300,
 	];
 
 	protected const LOADOUTS = [
-		'ct_full' => ['kevlar', 'defuser', 'm4a1_silencer', 'incgrenade', 'smokegrenade', 'flashbang', 'flashbang'],
+		'ct_full' => ['kevlar', 'defuser', 'm4a1_silencer', 'incgrenade', 'smokegrenade', 'flashbang', 'hegrenade'],
 		'ct_desperate' => ['kevlar', 'm4a1_silencer'],
 
-		't_full' => ['kevlar', 'helmet', 'ak47', 'molotov', 'smokegrenade', 'flashbang', 'flashbang'],
+		't_full' => ['kevlar', 'helmet', 'ak47', 'molotov', 'smokegrenade', 'flashbang', 'hegrenade'],
 		't_desperate' => ['kevlar', 'ak47'],
 
-		'awp_full' => ['kevlar', 'defuser', 'awp', 'molotov', 'smokegrenade', 'flashbang', 'flashbang'],
+		'awp_full' => ['kevlar', 'defuser', 'awp', 'molotov', 'smokegrenade', 'flashbang', 'hegrenade'],
 		'awp_desperate' => ['kevlar', 'awp'],
 	];
 
