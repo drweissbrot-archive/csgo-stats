@@ -8,10 +8,10 @@
 		"production": "mix --production"
 	},
 	"devDependencies": {
-		"idb-keyval": "^5.0.4",
-		"laravel-mix": "^6.0.13",
+		"idb-keyval": "^5.0.5",
+		"laravel-mix": "^6.0.18",
 		"normalize.css": "^8.0.1",
-		"postcss": "^8.2.9",
+		"postcss": "^8.2.13",
 		"stylus": "^0.54.8",
 		"stylus-loader": "^5.0.0",
 		"vue": "^2.6.12",
