@@ -224,7 +224,7 @@ class ScoreBuilder
 			}
 
 			foreach ($clutches as $clutch) {
-				if ($clutch === false) {
+				if ($clutch === false || ! $clutch->get('player')) {
 					continue;
 				}
 
