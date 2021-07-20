@@ -106,4 +106,11 @@ class SeriesController extends Controller
 
 		return view('series.read', compact('matchesExceptKnifeRounds', 'roundsPlayed', 'series', 'teams'));
 	}
+
+	public function byAlias(string $alias)
+	{
+		$series = Series::where('alias', $alias)->firstOrFail();
+
+		return redirect()->route('series', $series->id);
+	}
 }

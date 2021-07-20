@@ -41,3 +41,6 @@ Route::get('/loss-bonus-buys/wingman/m4a1', 'LossBonusBuysController@wingman_m4a
 
 Route::get('/loss-bonus-buys/wingman/m4a4', 'LossBonusBuysController@wingman_m4a4')
 	->name('loss-bonus-buys.wingman-m4a4');
+
+Route::get('/{alias}', 'SeriesController@byAlias')
+	->name('alias');
