@@ -5,7 +5,7 @@
 		"fideloper/proxy": "^4.4",
 		"goldspecdigital/laravel-eloquent-uuid": "^8.0",
 		"guzzlehttp/guzzle": "^7.3",
-		"laravel/framework": "^8.40",
+		"laravel/framework": "^8.51",
 		"laravel/tinker": "^2.6",
 		"xpaw/steamid": "^2.0"
 	},
@@ -52,7 +52,7 @@
 	},
 	"require-dev": {
 		"beyondcode/laravel-dump-server": "^1.7",
-		"facade/ignition": "^2.8",
-		"nunomaduro/collision": "^5.4"
+		"facade/ignition": "^2.11",
+		"nunomaduro/collision": "^5.5"
 	}
 }
