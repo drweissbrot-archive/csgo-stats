@@ -7,10 +7,6 @@ use DB;
 use Facades\App\Support\MatchCreator;
 use Facades\App\Support\SeriesCreator;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Storage;
-use Str;
 use Symfony\Component\Process\Process;
 
 class DemoImportOneCommand extends Command

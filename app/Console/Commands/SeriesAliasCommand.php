@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Map;
 use App\Series;
 use DB;
 use Illuminate\Console\Command;
