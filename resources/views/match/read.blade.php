@@ -148,6 +148,22 @@
 				</a>
 			</div>
 		@endif
+
+		@if ($match->leetify_match_id)
+			<div class="card --highlighted">
+				<div class="title">
+					Leetify
+				</div>
+
+				<a
+					href="https://beta.leetify.com/app/match-details/{{ $match->leetify_match_id }}"
+					target="_blank"
+					class="value text-ellipsis"
+				>
+					Open on Leetify
+				</a>
+			</div>
+		@endif
 	</div>
 
 	<div class="map --hero --{{ $match->map->filename }}"></div>
