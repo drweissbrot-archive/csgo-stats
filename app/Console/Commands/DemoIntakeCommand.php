@@ -99,7 +99,7 @@ class DemoIntakeCommand extends Command
 
 				$process = new Process([
 					'node',
-					config('services.demo_parser'),
+					base_path('demo-parser.js'),
 					Storage::disk('demo_intake')->path("{$ladder->name}/{$seriesName}/{$file}"),
 					config('owner.steam_ids'),
 				]);

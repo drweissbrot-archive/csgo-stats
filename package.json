@@ -7,6 +7,9 @@
 		"prod": "npm run production",
 		"production": "mix --production"
 	},
+	"dependencies": {
+		"demofile": "^1.9.0"
+	},
 	"devDependencies": {
 		"idb-keyval": "^6.0.3",
 		"laravel-mix": "^6.0.39",

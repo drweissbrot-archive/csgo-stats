@@ -25,7 +25,7 @@ class DemoImportOneCommand extends Command
 
 			$process = new Process([
 				'node',
-				config('services.demo_parser'),
+				base_path('demo-parser.js'),
 				$this->argument('path'),
 				// config('owner.steam_ids'),
 			]);

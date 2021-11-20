@@ -2,19 +2,18 @@
 This is a match history plattform for Counter-Strike: Global Offensive.  
 Essentially, it shows a scoreboard and some more detailed info about CS:GO matches, as well as some performance metrics for players and teams.
 
-All data is provided by CS:GO demos (using [drweissbrot/csgo-demo-parser](https://github.com/drweissbrot/csgo-demo-parser)). These have to be imported by the site maintainer; there's no uploading demos or anything.
+All data is provided by CS:GO demos. These have to be imported by the site maintainer; there's no uploading demos or anything.
 
 I've built this primarily for my friends and myself, so don't expect any customizability or anything.
 
 You can find my instance of this project on https://csgo.drweissbrot.net.
 
 ## Setup
-None of this will work too well without [drweissbrot/csgo-demo-parser](https://github.com/drweissbrot/csgo-demo-parser), so you should clone that and install its dependencies via Yarn.
-
-Clone, `cd` into the directory, `composer install`, and copy `.env.example` to `.env`. Also run `php artisan key:generate` to generate an app key.
+Clone, `cd` into the directory, `composer install`, and copy `.env.example` to `.env`. Then run `php artisan key:generate` to generate an app key.  
+The actual demo parsing is done by a JavaScript script, so install the dependencies via Yarn, `yarn --prod` (or without the `--prod` if you prefer).
 
 ### Config
-Then, add to `.env` the paths to the demo storage directory (`DEMOS_ROOT`), the paths to the import folder (`DEMO_INTAKE`), and the path to the demo parser `app.js` (`DEMO_PARSER`). You will also want to add your Steam API Key (from https://steamcommunity.com/dev/apikey).
+Into the `.env` file, add the paths to the demo storage directory (`DEMOS_ROOT`), and to the import folder (`DEMO_INTAKE`). You will also want to add your Steam API Key (from https://steamcommunity.com/dev/apikey).
 
 You will also need to provide a database connection (cf. https://laravel.com/docs/database).
 
@@ -26,7 +25,6 @@ It should look something like this:
 
 DEMOS_ROOT="/csgo/stats/demos"
 DEMO_INTAKE="/csgo/stats/intake"
-DEMO_PARSER="/csgo/stats/demo-parser/app.js"
 
 // ...
 

@@ -29,6 +29,4 @@ return [
 	'steam' => [
 		'key' => env('STEAM_API_KEY'),
 	],
-
-	'demo_parser' => env('DEMO_PARSER'),
 ];
