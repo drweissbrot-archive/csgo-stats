@@ -9,23 +9,19 @@ I've built this primarily for my friends and myself, so don't expect any customi
 You can find my instance of this project on https://csgo.drweissbrot.net.
 
 ## Setup
-Clone, `cd` into the directory, `composer install`, and copy `.env.example` to `.env`. Then run `php artisan key:generate` to generate an app key.  
+You'll need Docker (tested on version 20.10) and Docker Compose (version 1.29 or greater).
+
+Clone this repository, `cd` into the directory, and run `docker-compose up`.  
+In a separate terminal, `cd` into the directory again and run `docker-compose exec app bash` to log into the container. Run `composer install`, and copy `.env.example` to `.env`. Then run `php artisan key:generate` to generate an app key.  
 The actual demo parsing is done by a JavaScript script, so install the dependencies via Yarn, `yarn --prod` (or without the `--prod` if you prefer).
 
 ### Config
-Into the `.env` file, add the paths to the demo storage directory (`DEMOS_ROOT`), and to the import folder (`DEMO_INTAKE`). You will also want to add your Steam API Key (from https://steamcommunity.com/dev/apikey).
-
-You will also need to provide a database connection (cf. https://laravel.com/docs/database).
+Into the `.env` file, add your Steam API Key (from https://steamcommunity.com/dev/apikey).
 
 If you want, you can also add the Steam2 IDs for all of your accounts (`OWNER_STEAM_IDS`), so any stats of your smurf accounts will be added to your main account instead (provide your main accounts Steam ID first, any others afterwards, comma-separated). If you provide `OWNER_STEAM_FLAG` and `OWNER_TEAM_NAMES`, a team using the provided flag or any of the provided names will be displayed on the left-hand side (or on the top) of match pages and such.
 
 It should look something like this:
 ```env
-// ...
-
-DEMOS_ROOT="/csgo/stats/demos"
-DEMO_INTAKE="/csgo/stats/intake"
-
 // ...
 
 OWNER_STEAM_IDS="STEAM_1:1:53558216,STEAM_1:0:56997699"
@@ -66,7 +62,7 @@ You can mark matches as "knife rounds", to prevent them from showing up in serie
 This is mostly provided by Laravel. You'll need to add an entry to your cron file:
 
 ```
-* * * * * cd /path/to/csgo-stats-directory && php artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /path/to/csgo-stats-directory && docker-compose exec app php artisan schedule:run >> /dev/null 2>&1
 ```
 
 This will, as provided in [app/Console/Kernel.php](app/Console/Kernel.php), import demos every night at 04:00 am Central European (Daylight) Time, and import Steam profile data (such as flags) an hour later.

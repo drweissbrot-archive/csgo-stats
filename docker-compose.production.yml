@@ -1,6 +1,10 @@
 version: '3.9'
 
 services:
+    mariadb:
+        profiles:
+            - donotstart
+
     minio:
         profiles:
             - donotstart
