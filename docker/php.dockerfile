@@ -9,11 +9,11 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
 	&& curl -fsSL https://deb.nodesource.com/setup_17.x | bash - \
 	&& apt-get update \
 	&& apt-get dist-upgrade -y \
-	&& apt-get install libicu-dev nodejs -y \
+	&& apt-get install libgmp-dev libicu-dev nodejs -y \
 	&& curl -s http://getcomposer.org/installer | php \
 	&& echo "export PATH=${PATH}:/var/www/vendor/bin" >> ~/.bashrc \
 	&& mv composer.phar /usr/local/bin/composer \
-	&& docker-php-ext-install -j$(nproc) intl pdo_mysql \
+	&& docker-php-ext-install -j$(nproc) gmp intl pdo_mysql \
 	&& echo "alias art='php artisan'" >> ~/.bashrc \
 	&& echo "alias tinker='php artisan tinker'" >> ~/.bashrc
 
