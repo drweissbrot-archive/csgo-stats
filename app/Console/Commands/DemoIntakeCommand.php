@@ -94,43 +94,56 @@ class DemoIntakeCommand extends Command
 		$matchNo = 0;
 
 		foreach ($files as $file) {
-			if (Str::endsWith($file, '.dem')) {
-				$this->info("importing demo {$file}");
-
-				$process = new Process([
-					'node',
-					base_path('demo-parser.js'),
-					Storage::disk('demo_intake')->path("{$ladder->name}/{$seriesName}/{$file}"),
-					config('owner.steam_ids'),
-				]);
-
-				$process->setTimeout(180);
-				$process->mustRun();
-				$demoJson = $process->getOutput();
-				$demo = collect(json_decode($demoJson))->recursive();
-
-				if (! $series) {
-					$series = SeriesCreator::fromDemo($demo, $ladder, $bestOf, $seriesDisplayName, $seriesNotes);
-				}
-
-				$isKnife = Str::endsWith($file, ' knife.dem');
-				$startedAt = new Carbon(
-					collect(preg_split('/[ _:]|\.dem/u', $file, 3))->forget(2)->join(' ')
-				);
-
-				$matchNotes = ($files->contains("{$file}.txt"))
-					? (Storage::disk('demo_intake')->get("{$ladder->name}/{$seriesName}/{$file}.txt") ?: null)
-					: null;
-
-				$match = MatchCreator::fromDemo($demo, $series, $matchNo++, $isKnife, $startedAt, null, $matchNotes);
-
-				Storage::disk('demos')->put("{$match->id}.dem.gz", gzencode(
-					Storage::disk('demo_intake')->get("{$ladder->name}/{$seriesName}/{$file}")
-				));
-
-				$match->demo_path = "{$match->id}.dem.gz";
-				$match->save();
+			if (! Str::endsWith($file, '.dem')) {
+				continue;
 			}
+
+			$this->info("downloading demo {$file}");
+
+			$id = (string) Str::uuid();
+
+			Storage::disk('tmp')->writeStream(
+				"{$id}.dem",
+				Storage::disk('demo_intake')->readStream("{$ladder->name}/{$seriesName}/{$file}"),
+			);
+
+			$this->info("importing demo {$file}");
+
+			$process = new Process([
+				'node',
+				base_path('demo-parser.js'),
+				Storage::disk('tmp')->path("{$id}.dem"),
+				config('owner.steam_ids'),
+			]);
+
+			$process->setTimeout(180);
+			$process->mustRun();
+			$demoJson = $process->getOutput();
+			$demo = collect(json_decode($demoJson))->recursive();
+
+			if (! $series) {
+				$series = SeriesCreator::fromDemo($demo, $ladder, $bestOf, $seriesDisplayName, $seriesNotes);
+			}
+
+			$isKnife = Str::endsWith($file, ' knife.dem');
+			$startedAt = new Carbon(
+				collect(preg_split('/[ _:]|\.dem/u', $file, 3))->forget(2)->join(' ')
+			);
+
+			$matchNotes = ($files->contains("{$file}.txt"))
+				? (Storage::disk('demo_intake')->get("{$ladder->name}/{$seriesName}/{$file}.txt") ?: null)
+				: null;
+
+			$match = MatchCreator::fromDemo($demo, $series, $matchNo++, $isKnife, $startedAt, null, $matchNotes);
+
+			Storage::disk('demos')->put("{$match->id}.dem.gz", gzencode(
+				Storage::disk('tmp')->get("{$id}.dem"),
+			));
+
+			$match->demo_path = "{$match->id}.dem.gz";
+			$match->save();
+
+			Storage::disk('tmp')->delete("{$id}.dem");
 		}
 
 		Storage::disk('demo_intake')->delete("{$ladder->name}/{$seriesName}/{$seriesName}.txt");

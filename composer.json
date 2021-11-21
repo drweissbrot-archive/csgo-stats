@@ -7,6 +7,7 @@
 		"guzzlehttp/guzzle": "^7.4",
 		"laravel/framework": "^8.73",
 		"laravel/tinker": "^2.6",
+		"league/flysystem-aws-s3-v3": "^1.0",
 		"xpaw/steamid": "^2.0"
 	},
 	"config": {

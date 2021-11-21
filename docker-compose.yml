@@ -57,6 +57,30 @@ services:
             retries: 3
             timeout: 5s
 
+    minio:
+        image: 'minio/minio:latest'
+
+        ports:
+            - '${FORWARD_MINIO_PORT:-20214}:9000'
+            - '${FORWARD_MINIO_CONSOLE_PORT:-20215}:9001'
+
+        environment:
+            MINIO_ROOT_USER: 'root'
+            MINIO_ROOT_PASSWORD: 'password'
+
+        volumes:
+            - './storage/minio:/minio'
+
+        networks:
+            - default
+
+        command: minio server /minio --console-address ":9001"
+
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+            retries: 3
+            timeout: 5s
+
 networks:
     default:
         driver: bridge

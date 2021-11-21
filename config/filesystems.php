@@ -34,14 +34,31 @@ return [
 			'root' => storage_path('app'),
 		],
 
-		'demos' => [
+		'tmp' => [
 			'driver' => 'local',
-			'root' => env('DEMOS_ROOT'),
+			'root' => storage_path('app/tmp'),
+		],
+
+		'demos' => [
+			'driver' => 's3',
+			'bucket' => env('DEMOS_BUCKET'),
+			'endpoint' => env('DEMOS_ENDPOINT'),
+			'key' => env('DEMOS_ACCESS_KEY_ID'),
+			'region' => env('DEMOS_DEFAULT_REGION', 'any'),
+			'secret' => env('DEMOS_SECRET_ACCESS_KEY'),
+			'url' => env('DEMOS_URL'),
+			'use_path_style_endpoint' => env('DEMOS_USE_PATH_STYLE_ENDPOINT', false),
 		],
 
 		'demo_intake' => [
-			'driver' => 'local',
-			'root' => env('DEMO_INTAKE'),
+			'driver' => 's3',
+			'bucket' => env('INTAKE_BUCKET'),
+			'endpoint' => env('INTAKE_ENDPOINT'),
+			'key' => env('INTAKE_ACCESS_KEY_ID'),
+			'region' => env('INTAKE_DEFAULT_REGION', 'any'),
+			'secret' => env('INTAKE_SECRET_ACCESS_KEY'),
+			'url' => env('INTAKE_URL'),
+			'use_path_style_endpoint' => env('INTAKE_USE_PATH_STYLE_ENDPOINT', false),
 		],
 
 		'public' => [

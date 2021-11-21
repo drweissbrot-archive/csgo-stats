@@ -8,7 +8,7 @@ WORKDIR /tmp
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
 	&& curl -fsSL https://deb.nodesource.com/setup_17.x | bash - \
 	&& apt-get update \
-	&& apt-get upgrade -y \
+	&& apt-get dist-upgrade -y \
 	&& apt-get install libicu-dev nodejs -y \
 	&& curl -s http://getcomposer.org/installer | php \
 	&& echo "export PATH=${PATH}:/var/www/vendor/bin" >> ~/.bashrc \

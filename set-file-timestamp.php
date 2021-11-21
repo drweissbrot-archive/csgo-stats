@@ -18,7 +18,9 @@ if (count($matches) !== count($files)) {
 }
 
 foreach ($files as $id => $file) {
-	if (! $matches->has($id)) die("${id} MISSING!\n");
+	if (! $matches->has($id)) {
+		die("${id} MISSING!\n");
+	}
 
 	$finishedAt = $matches->get($id)->started_at->getTimestamp() + $matches->get($id)->duration;
 
